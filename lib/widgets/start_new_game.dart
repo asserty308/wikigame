@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
+import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 
 class StartNewGameWidget extends StatefulWidget {
@@ -27,32 +28,19 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: !articlesFetched ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
+    // show progress indicator until articles have been fetched
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: Text("Wikigame"), centerTitle: true, backgroundColor: Colors.black, elevation: 1.0,),
+      body: !articlesFetched ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text("Willkommen! Dies sind Deine Wörter.", style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
             ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ExpansionTile(
-                title: Text(articles[0].title),
-                children: <Widget>[
-                  Text(articles[0].summary)
-                ],
-              )
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ExpansionTile(
-                title: Text(articles[1].title),
-                children: <Widget>[
-                  Text(articles[1].summary)
-                ],
-              )
-            ),
+            ArticleExpansionTile(article: articles[0],),
+            ArticleExpansionTile(article: articles[1],),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: RaisedButton(
@@ -72,7 +60,7 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
   }
 
   void startNewGame() {
-    this.gameHandler.startGame();
+    this.gameHandler.startGame(articles[0], articles[1]);
   }
 
   void fetchArticles() async {

@@ -17,6 +17,20 @@ Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json) async {
   );
 }
 
+/// Generates an WikiArticle object by parsing json
+/// The given json must contain the keys 'id' and 'title'
+Future<WikiArticle> createArticleFromTitle(String title) async {
+  int id = await fetchIDFromTitle(title);
+  String summary = await fetchArticleSummary(id);
+
+  return WikiArticle(
+      id: id,
+      title: title,
+      summary: summary,
+      links: null
+  );
+}
+
 /// Representation of a Wikipedia article.
 class WikiArticle {
   int id;
