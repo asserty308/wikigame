@@ -22,6 +22,7 @@ class MainGameWidgetState extends State<MainGameWidget> {
 
   List<Widget> linkWidgets = List<Widget>();
   List<WikiArticle> clickedLinks = List<WikiArticle>();
+  bool goalReached = false;
 
   MainGameWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
 
@@ -43,14 +44,24 @@ class MainGameWidgetState extends State<MainGameWidget> {
         backgroundColor: Colors.black,
         elevation: 1.0,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () { this.gameHandler.stopGame(); }),),
-      body: this.linkWidgets.isEmpty ? Center(child: CircularProgressIndicator()) :
-            ListView(
-              padding: const EdgeInsets.all(20.0),
-              children: this.linkWidgets,
-            ),
+      body:
+        // check whether the goal has been reached. show congrats text when true
+        this.goalReached ? Center(child: Text("Glückwunsch, du hast das Ziel in ${clickedLinks.length-1} Zügen erreicht!"),) :
+        // goal not reached
+        this.linkWidgets.isEmpty ?
+        // show progress indicator until data has been fetched
+        Center(child: CircularProgressIndicator()) :
+        // show fetched data
+        ListView(
+          padding: const EdgeInsets.all(20.0),
+          children: this.linkWidgets,
+        ),
     );
   }
 
+  /// Calls the wiki api for links on the current article and
+  /// generates a list of these links as well as a 'header' with information
+  /// about the current goal.
   void fetchLinks() async {
     var links = await fetchArticleLinksByTitle(this.clickedLinks.last.title);
 
@@ -67,18 +78,29 @@ class MainGameWidgetState extends State<MainGameWidget> {
 
     // create Text widgets to show the links in the listview
     for (var l in links) {
-      linkWidgets.add(FlatButton(onPressed: () => linkClicked(l), child: Text(l, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),)),);
+      linkWidgets.add(FlatButton(onPressed: () => linkTapped(l), child: Text(l, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),)),);
     }
 
     this.setState((){});
   }
 
-  void linkClicked(String title) async {
+  /// Called when the user taps a link.
+  /// Appends the selected article to the clickedLinks list and
+  /// refreshes the site with the new article.
+  void linkTapped(String title) async {
+    final tappedArticle = await createArticleFromTitle(title);
+    this.clickedLinks.add(tappedArticle);
     this.linkWidgets.clear();
-    this.clickedLinks.add(await createArticleFromTitle(title));
+
+    // check whether the user reached the goal
+    if (goalArticle.id == tappedArticle.id) {
+      this.goalReached = true;
+    }
 
     setState(() {
-      this.fetchLinks();
+      if (!this.goalReached) {
+        this.fetchLinks();
+      }
     });
   }
 
