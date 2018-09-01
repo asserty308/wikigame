@@ -43,6 +43,8 @@ Future<String> fetchArticleSummary(int id) async {
 
   final pageObj = responseJSON["query"]["pages"]["$id"];
 
+  // todo: pageObj can be null: example "Filmindustrie"
+
   if (pageObj.containsKey("extract")) {
     return pageObj["extract"];
   }

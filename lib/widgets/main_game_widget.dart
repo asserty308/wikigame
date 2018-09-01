@@ -5,6 +5,7 @@ import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
+import 'package:wikigame/widgets/success_widget.dart';
 
 class MainGameWidget extends StatefulWidget {
   final WikiArticle startArticle, goalArticle;
@@ -46,7 +47,7 @@ class MainGameWidgetState extends State<MainGameWidget> {
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () { this.gameHandler.stopGame(); }),),
       body:
         // check whether the goal has been reached. show congrats text when true
-        this.goalReached ? Center(child: Text("Glückwunsch, du hast das Ziel in ${clickedLinks.length-1} Zügen erreicht!"),) :
+        this.goalReached ? SuccessWidget(clickedLinks: this.clickedLinks) :
         // goal not reached
         this.linkWidgets.isEmpty ?
         // show progress indicator until data has been fetched
