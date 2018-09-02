@@ -6,17 +6,17 @@ import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 
-class MainGameWidget extends StatefulWidget {
+class ClassicGameWidget extends StatefulWidget {
   final WikiArticle startArticle, goalArticle;
   final GameHandlerWidgetState gameHandler;
 
-  const MainGameWidget({this.startArticle, this.goalArticle, this.gameHandler});
+  const ClassicGameWidget({this.startArticle, this.goalArticle, this.gameHandler});
 
   @override
-  State<StatefulWidget> createState() => MainGameWidgetState(startArticle: this.startArticle, goalArticle: this.goalArticle, gameHandler: this.gameHandler);
+  State<StatefulWidget> createState() => ClassicGameWidgetState(startArticle: this.startArticle, goalArticle: this.goalArticle, gameHandler: this.gameHandler);
 }
 
-class MainGameWidgetState extends State<MainGameWidget> {
+class ClassicGameWidgetState extends State<ClassicGameWidget> {
   final WikiArticle startArticle, goalArticle;
   final GameHandlerWidgetState gameHandler;
 
@@ -24,7 +24,7 @@ class MainGameWidgetState extends State<MainGameWidget> {
   List<WikiArticle> clickedLinks = List<WikiArticle>();
   bool goalReached = false;
 
-  MainGameWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
+  ClassicGameWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
 
   @override
   void initState() {
@@ -87,10 +87,6 @@ class MainGameWidgetState extends State<MainGameWidget> {
           title: Text(l),
           onTap: () => linkTapped(l),
         )
-        /*FlatButton(
-          onPressed: () => linkTapped(l),
-          child: Text(l, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),)
-        ),*/
       );
     }
 

@@ -32,30 +32,46 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
     // show progress indicator until articles have been fetched
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Wikigame"), centerTitle: true, backgroundColor: Colors.black, elevation: 1.0,),
-      body: !articlesFetched ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: HeaderText(text: "Willkommen! Dies sind Deine Wörter."),
+      appBar: AppBar(title: Text("Wiki Game"), centerTitle: true, backgroundColor: Colors.black, elevation: 1.0,),
+      body: !articlesFetched ? Center(child: CircularProgressIndicator()) : this.buildClassicModeWidget(),
+    );
+  }
+
+  Widget buildClassicModeWidget() {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                HeaderText(text: "Klassischer Modus"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BodyText(text: "In diesem Modus werden Start und Ziel zufällig ausgewählt"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: HeaderText(text: "Deine Artikel sind"),
+                )
+              ],
             ),
-            ArticleExpansionTile(article: articles[0],),
-            ArticleExpansionTile(article: articles[1],),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: RaisedButton(
-                onPressed: startNewGame,
-                child: Text("Spiel starten", style: TextStyle(color: Colors.white),),
-                color: Colors.blue,
-              ),
+          ),
+          ArticleExpansionTile(article: articles[0],),
+          ArticleExpansionTile(article: articles[1],),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: RaisedButton(
+              onPressed: startNewGame,
+              child: Text("Spiel starten", style: TextStyle(color: Colors.white),),
+              color: Colors.blue,
             ),
-            FlatButton(
-              onPressed: fetchArticles,
-              child: Text("Neue Wörter laden"),
-            )
-          ],
-        ),
+          ),
+          FlatButton(
+            onPressed: fetchArticles,
+            child: Text("Neue Wörter laden"),
+          )
+        ],
       ),
     );
   }
