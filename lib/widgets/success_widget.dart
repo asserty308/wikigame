@@ -13,7 +13,7 @@ class SuccessWidget extends StatelessWidget {
     var text = HeaderText(text: "Glückwunsch, Du hast das Ziel in ${clickedLinks.length-1} Zügen erreicht!");
     var list = ListView.builder(
       itemCount: clickedLinks.length + 1,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index) {
         if (index == 0) {
           return Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),

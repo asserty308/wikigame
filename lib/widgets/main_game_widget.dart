@@ -52,9 +52,13 @@ class MainGameWidgetState extends State<MainGameWidget> {
         // show progress indicator until data has been fetched
         Center(child: CircularProgressIndicator()) :
         // show fetched data
-        ListView(
-          padding: const EdgeInsets.all(20.0),
-          children: this.linkWidgets,
+        // ListView.builder constructor will create items as they are scrolled onto the screen
+        // This is more efficient then the default ListView constructor
+        ListView.builder(
+          itemCount: this.linkWidgets.length,
+          itemBuilder: (context, index) {
+            return this.linkWidgets[index];
+          }
         ),
     );
   }
