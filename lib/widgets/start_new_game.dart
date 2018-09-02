@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
+import 'package:wikigame/style/text_styles.dart';
 import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 
@@ -37,7 +38,7 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text("Willkommen! Dies sind Deine Wörter.", style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+              child: HeaderText(text: "Willkommen! Dies sind Deine Wörter."),
             ),
             ArticleExpansionTile(article: articles[0],),
             ArticleExpansionTile(article: articles[1],),

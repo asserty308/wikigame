@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
+import 'package:wikigame/style/text_styles.dart';
 import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 import 'package:wikigame/widgets/success_widget.dart';
@@ -69,9 +68,9 @@ class MainGameWidgetState extends State<MainGameWidget> {
     // first row of the list should be the header
     var header = Column(
       children: <Widget>[
-        Text("Ziel", style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+        HeaderText(text: "Ziel"),
         ArticleExpansionTile(article: goalArticle,),
-        Text("Mögliche Links", style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+        HeaderText(text: "Mögliche Links"),
       ],
     );
 
@@ -79,7 +78,16 @@ class MainGameWidgetState extends State<MainGameWidget> {
 
     // create Text widgets to show the links in the listview
     for (var l in links) {
-      linkWidgets.add(FlatButton(onPressed: () => linkTapped(l), child: Text(l, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),)),);
+      linkWidgets.add(
+        ListTile(
+          title: Text(l),
+          onTap: () => linkTapped(l),
+        )
+        /*FlatButton(
+          onPressed: () => linkTapped(l),
+          child: Text(l, style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),)
+        ),*/
+      );
     }
 
     this.setState((){});

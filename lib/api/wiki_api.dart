@@ -24,7 +24,7 @@ Future<List<WikiArticle>> getRandomArticles(int amount) async {
   return articles;
 }
 
-/// Fetches the summary for the article with the given id
+/// Fetches the id of the article by a given title
 Future<int> fetchIDFromTitle(String title) async {
   var url = "$wikiQueryUrl&titles=$title&formatversion=2";
 
@@ -36,14 +36,17 @@ Future<int> fetchIDFromTitle(String title) async {
 
 /// Fetches the summary for the article with the given id
 Future<String> fetchArticleSummary(int id) async {
-  var url = "$wikiQueryUrl&prop=extracts&exintro&explaintext&redirects=1&pageids=$id";
+  // The url to fetch the summary.
+  // formatversion=2 makes sure, that the response pages are returned as json array.
+  // This is needed because the id of an article could not be valid anymore because of
+  // a redirect. (example on german wiki: Filmindustrie (1566124) became Filmwirtschaft (202198))
+  var url = "$wikiQueryUrl&prop=extracts&exintro&explaintext&redirects=1&pageids=$id&formatversion=2";
 
   final response = await http.get(url);
   final responseJSON = json.decode(response.body);
 
-  final pageObj = responseJSON["query"]["pages"]["$id"];
-
-  // todo: pageObj can be null: example "Filmindustrie"
+  // get page object
+  final pageObj = responseJSON["query"]["pages"][0];
 
   if (pageObj.containsKey("extract")) {
     return pageObj["extract"];
@@ -52,42 +55,8 @@ Future<String> fetchArticleSummary(int id) async {
   return "Zusammenfassung nicht verfügbar.";
 }
 
-/*Future<List<String>> fetchArticleLinks(int id) async {
-  var url = "$wikiQueryUrl&prop=links&pllimit=max&pageids=$id";
-
-  var response = await http.get(url);
-  var responseJSON = json.decode(response.body);
-
-  List<String> links = List<String>();
-
-  while (true) {
-    // fetch all links from response and add them to the link list
-    for (var linkObj in responseJSON["query"]["pages"]["$id"]["links"]) {
-      if (linkObj["ns"] != 0) {
-        // link is not an article
-        continue;
-      }
-
-      links.add(linkObj["title"]);
-    }
-
-    // check for continue key: ['continue']['plcontinue'] is available when
-    // the link limit of 500 has been reached. To get all links, another
-    // request must be made with the param in 'plcontinue' attached.
-    final contObj = responseJSON['continue'];
-    if (contObj == null) {
-      // continue key not available -> all links fetched
-      break;
-    }
-
-    final contParam = contObj['plcontinue'];
-    response = await http.get("$url&$contParam");
-    responseJSON = json.decode(response.body);
-  }
-
-  return links;
-}*/
-
+/// Fetches all links in the article which lead to other wikipedia articles.
+/// The links are returned as a list of the titles of the article.
 Future<List<String>> fetchArticleLinksByTitle(String title) async {
   var url = "$wikiQueryUrl&prop=links&pllimit=max&titles=$title&formatversion=2";
 
@@ -126,4 +95,9 @@ Future<List<String>> fetchArticleLinksByTitle(String title) async {
   }
 
   return links;
+}
+
+Future<List<String>> fetchArticlesWithCategory(String category) async {
+  var url = "$wikiQueryUrl&cmnamespace=0&list=categorymembers&cmtitle=Category:$category";
+  return null;
 }
