@@ -37,12 +37,10 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blueGrey,
       appBar: AppBar(
-        title: Text(this.clickedLinks.last.title),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        elevation: 1.0,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () { this.gameHandler.stopGame(); }),),
       body:
         // check whether the goal has been reached. show congrats text when true
@@ -84,7 +82,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     for (var l in links) {
       linkWidgets.add(
         ListTile(
-          title: Text(l),
+          title: ListText(text: l),
           onTap: () => linkTapped(l),
         )
       );

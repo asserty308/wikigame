@@ -31,8 +31,8 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
   Widget build(BuildContext context) {
     // show progress indicator until articles have been fetched
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Wiki Game"), centerTitle: true, backgroundColor: Colors.black, elevation: 1.0,),
+      backgroundColor: Colors.blueGrey,
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0,),
       body: !articlesFetched ? Center(child: CircularProgressIndicator()) : this.buildClassicModeWidget(),
     );
   }
@@ -63,13 +63,13 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
               onPressed: startNewGame,
-              child: Text("Spiel starten", style: TextStyle(color: Colors.white),),
-              color: Colors.blue,
+              child: ListText(text: "Spiel starten"),
+              color: Colors.red,
             ),
           ),
           FlatButton(
             onPressed: fetchArticles,
-            child: Text("Neue Wörter laden"),
+            child: ExplainText(text: "Neue Wörter laden"),
           )
         ],
       ),

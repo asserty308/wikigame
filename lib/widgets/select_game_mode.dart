@@ -10,22 +10,32 @@ class SelectGameMode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Wiki Game"), centerTitle: true, backgroundColor: Colors.black, elevation: 1.0,),
-      body: ListView(
+      backgroundColor: Colors.blueGrey,
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0,),
+      body: Column(
         children: <Widget>[
-          HeaderText(text: "Spielmodus auswählen"),
-          ListTile(
-            title: BodyText(text: "Klassisch",),
-            onTap: startClassicMode,
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: HeaderText(text: "Spielmodus auswählen"),
           ),
-          ListTile(
-            title: BodyText(text: "5 Klicks bis Jesus (in Arbeit)",),
-            onTap: startFiveToJesus,
-          ),
-          ListTile(
-            title: BodyText(text: "Zeitdruck (in Arbeit)",),
-            onTap: startTimeTrials,
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: BodyText(text: "Klassisch",),
+                  onTap: startClassicMode,
+                ),
+                ListTile(
+                  title: BodyText(text: "5 Klicks bis Jesus",),
+                  onTap: startFiveToJesus,
+                ),
+                ListTile(
+                  title: BodyText(text: "Zeitdruck",),
+                  onTap: startTimeTrials,
+                )
+              ],
+            ),
           )
         ],
       ),
