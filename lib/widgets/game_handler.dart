@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/widgets/gamemodes/classic_game_widget.dart';
+import 'package:wikigame/widgets/gamemodes/five_to_jesus_widget.dart';
 import 'package:wikigame/widgets/select_game_mode.dart';
 import 'package:wikigame/widgets/start_new_game.dart';
 
@@ -34,6 +35,20 @@ class GameHandlerWidgetState extends State<GameHandlerWidget> {
     });
   }
 
+  void selectFiveToJesus() {
+    this.setState(() {
+      this.gameState = GameStates.stopped;
+      this.gameMode = GameModes.fiveToJesus;
+    });
+  }
+
+  void selectTimeTrials() {
+    this.setState(() {
+      this.gameState = GameStates.stopped;
+      this.gameMode = GameModes.twoMinTimeTrial;
+    });
+  }
+
   void startGame(WikiArticle start, WikiArticle goal) {
     this.startArticle = start;
     this.goalArticle = goal;
@@ -58,7 +73,21 @@ class GameHandlerWidgetState extends State<GameHandlerWidget> {
     switch (this.gameState) {
       case GameStates.menu: return SelectGameMode(gameHandler: this);
       case GameStates.stopped: return StartNewGameWidget(this);
-      case GameStates.started: return ClassicGameWidget(startArticle: this.startArticle, goalArticle: this.goalArticle, gameHandler: this,);
+      case GameStates.started:
+        {
+          if (this.gameMode == GameModes.classic) {
+            return ClassicGameWidget(
+              startArticle: this.startArticle,
+              goalArticle: this.goalArticle,
+              gameHandler: this,);
+          } else if (this.gameMode == GameModes.fiveToJesus) {
+            return FiveToJesusWidget(
+                startArticle: this.startArticle,
+                gameHandler: this);
+          }
+
+          return null;
+        }
       case GameStates.paused: return null;
       default: return null;
     }

@@ -10,7 +10,7 @@ class SelectGameMode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.black,
       appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0,),
       body: Column(
         children: <Widget>[
@@ -47,8 +47,10 @@ class SelectGameMode extends StatelessWidget {
   }
 
   void startFiveToJesus() {
+    this.gameHandler.selectFiveToJesus();
   }
 
   void startTimeTrials() {
+    this.gameHandler.selectTimeTrials();
   }
 }

@@ -5,26 +5,28 @@ import 'package:wikigame/style/text_styles.dart';
 import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 import 'package:wikigame/widgets/success_widget.dart';
+import 'package:wikigame/widgets/fail_widget.dart';
 
-class ClassicGameWidget extends StatefulWidget {
-  final WikiArticle startArticle, goalArticle;
+class FiveToJesusWidget extends StatefulWidget {
+  final WikiArticle startArticle;
   final GameHandlerWidgetState gameHandler;
 
-  const ClassicGameWidget({this.startArticle, this.goalArticle, this.gameHandler});
+  const FiveToJesusWidget({this.startArticle, this.gameHandler});
 
   @override
-  State<StatefulWidget> createState() => ClassicGameWidgetState(startArticle: this.startArticle, goalArticle: this.goalArticle, gameHandler: this.gameHandler);
+  State<StatefulWidget> createState() => FiveToJesusWidgetState(startArticle: this.startArticle, gameHandler: this.gameHandler);
 }
 
-class ClassicGameWidgetState extends State<ClassicGameWidget> {
-  final WikiArticle startArticle, goalArticle;
+class FiveToJesusWidgetState extends State<FiveToJesusWidget> {
+  final WikiArticle startArticle;
   final GameHandlerWidgetState gameHandler;
 
   List<Widget> linkWidgets = List<Widget>();
   List<WikiArticle> clickedLinks = List<WikiArticle>();
   bool goalReached = false;
+  bool tooManyMoves = false;
 
-  ClassicGameWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
+  FiveToJesusWidgetState({this.startArticle, this.gameHandler});
 
   @override
   void initState() {
@@ -43,21 +45,21 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
         elevation: 0.0,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () { this.gameHandler.stopGame(); }),),
       body:
-        // check whether the goal has been reached. show congrats text when true
-        this.goalReached ? SuccessWidget(clickedLinks: this.clickedLinks) :
-        // goal not reached
-        this.linkWidgets.isEmpty ?
-        // show progress indicator until data has been fetched
-        Center(child: CircularProgressIndicator()) :
-        // show fetched data
-        // ListView.builder constructor will create items as they are scrolled onto the screen
-        // This is more efficient then the default ListView constructor
-        ListView.builder(
+      // check whether the user needed too many moves
+      this.tooManyMoves ? FailWidget(clickedLinks: this.clickedLinks,) :
+      // check whether the goal has been reached. show congrats text when true
+      this.goalReached ? SuccessWidget(clickedLinks: this.clickedLinks) :
+      // goal not reached
+      this.linkWidgets.isEmpty ? Center(child: CircularProgressIndicator()) :
+      // show fetched data
+      // ListView.builder constructor will create items as they are scrolled onto the screen
+      // This is more efficient then the default ListView constructor
+      ListView.builder(
           itemCount: this.linkWidgets.length,
           itemBuilder: (context, index) {
             return this.linkWidgets[index];
           }
-        ),
+      ),
     );
   }
 
@@ -66,12 +68,13 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   /// about the current goal.
   void fetchLinks() async {
     var links = await fetchArticleLinksByTitle(this.clickedLinks.last.title);
+    var jesus = await createArticleFromTitle("Jesus Christus");
 
     // first row of the list should be the header
     var header = Column(
       children: <Widget>[
         HeaderText(text: "Ziel"),
-        ArticleExpansionTile(article: goalArticle,),
+        ArticleExpansionTile(article: jesus),
         HeaderText(text: "Mögliche Links"),
       ],
     );
@@ -81,10 +84,10 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     // create Text widgets to show the links in the listview
     for (var l in links) {
       linkWidgets.add(
-        ListTile(
-          title: ListText(text: l),
-          onTap: () => linkTapped(l),
-        )
+          ListTile(
+            title: ListText(text: l),
+            onTap: () => linkTapped(l),
+          )
       );
     }
 
@@ -96,11 +99,14 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   /// refreshes the site with the new article.
   void linkTapped(String title) async {
     final tappedArticle = await createArticleFromTitle(title);
+    var jesus = await createArticleFromTitle("Jesus Christus");
+
     this.clickedLinks.add(tappedArticle);
     this.linkWidgets.clear();
 
-    // check whether the user reached the goal
-    if (goalArticle.id == tappedArticle.id) {
+    if (this.clickedLinks.length >= 6) {
+      this.tooManyMoves = true;
+    } else if (jesus.id == tappedArticle.id) {
       this.goalReached = true;
     }
 

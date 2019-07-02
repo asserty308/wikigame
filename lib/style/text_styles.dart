@@ -13,7 +13,7 @@ class HeaderText extends StatelessWidget {
           fontSize: 17.0,
           fontWeight: FontWeight.bold,
           fontFamily: 'PressStart2P',
-          color: Colors.deepOrangeAccent),
+          color: Colors.white),
       textAlign: TextAlign.center,
     );
   }
@@ -32,7 +32,7 @@ class BodyText extends StatelessWidget {
           fontSize: 14.0,
           fontWeight: FontWeight.normal,
           fontFamily: 'PressStart2P',
-          color: Colors.amber),
+          color: Colors.white),
       textAlign: TextAlign.center,
     );
   }
@@ -45,14 +45,19 @@ class ListText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      this.text.toUpperCase(),
-      style: TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.normal,
-          fontFamily: 'PressStart2P',
-          color: Colors.lime),
-      textAlign: TextAlign.center,
+    return Container(
+      height: 50.0,
+      child: Center(
+        child: Text(
+          this.text.toUpperCase(),
+          style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'PressStart2P',
+              color: Colors.white,),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }
@@ -70,7 +75,7 @@ class ExplainText extends StatelessWidget {
           fontSize: 12.0,
           fontWeight: FontWeight.normal,
           fontFamily: 'PressStart2P',
-          color: Colors.lightGreenAccent),
+          color: Colors.white),
       textAlign: TextAlign.center,
     );
   }
