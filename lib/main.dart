@@ -1,7 +1,13 @@
+import 'package:flutter/foundation.dart'
+    show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
 import 'package:wikigame/main_screen.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  // platform override necessary for flutter to recognize windows as a platform
+  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

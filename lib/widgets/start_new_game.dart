@@ -6,25 +6,25 @@ import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 
 class StartNewGameWidget extends StatefulWidget {
+  const StartNewGameWidget(this.gameHandler) : super();
+
   final GameHandlerWidgetState gameHandler;
 
-  StartNewGameWidget(this.gameHandler) : super();
-
   @override
-  State<StatefulWidget> createState() => StartNewGameWidgetState(this.gameHandler);
+  State<StatefulWidget> createState() => StartNewGameWidgetState(gameHandler);
 }
 
 class StartNewGameWidgetState extends State<StartNewGameWidget> {
+  StartNewGameWidgetState(this.gameHandler) : super();
+
   final GameHandlerWidgetState gameHandler;
   bool articlesFetched = false;
-  List<WikiArticle> articles = List<WikiArticle>();
-
-  StartNewGameWidgetState(this.gameHandler) : super();
+  List<WikiArticle> articles = <WikiArticle>[];
 
   @override
   void initState() {
     super.initState();
-    this.fetchArticles();
+    fetchArticles();
   }
 
   @override
@@ -34,14 +34,14 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title:
-          this.gameHandler.gameMode == GameModes.classic ? HeaderText(text: "Klassischer Modus") :
-          this.gameHandler.gameMode == GameModes.fiveToJesus ? HeaderText(text: "5 Klicks bis Jesus") : HeaderText(text: "Zeitdruck",),
+          gameHandler.gameMode == GameMode.classic ? HeaderText(text: 'Klassischer Modus') :
+          gameHandler.gameMode == GameMode.fiveToJesus ? HeaderText(text: '5 Klicks bis Jesus') : HeaderText(text: 'Zeitdruck',),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,),
       body: !articlesFetched ? Center(child: CircularProgressIndicator()) :
-        this.gameHandler.gameMode == GameModes.fiveToJesus ? this.buildFiveToJesusWidget() :
-        this.gameHandler.gameMode == GameModes.classic ? this.buildClassicModeWidget() : this.buildTimeTrialsWidget(),
+        gameHandler.gameMode == GameMode.fiveToJesus ? buildFiveToJesusWidget() :
+        gameHandler.gameMode == GameMode.classic ? buildClassicModeWidget() : buildTimeTrialsWidget(),
     );
   }
 
@@ -52,14 +52,14 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              children: <Widget>[
+              children: const <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: BodyText(text: "In diesem Modus werden Start und Ziel zufällig ausgewählt"),
+                  child: BodyText(text: 'In diesem Modus werden Start und Ziel zufällig ausgewählt'),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 40.0),
-                  child: HeaderText(text: "Deine Artikel sind"),
+                  child: HeaderText(text: 'Deine Artikel sind'),
                 )
               ],
             ),
@@ -70,13 +70,13 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
               onPressed: startNewGame,
-              child: ListText(text: "Spiel starten"),
+              child: ListText(text: 'Spiel starten'),
               color: Colors.red,
             ),
           ),
           FlatButton(
             onPressed: fetchArticles,
-            child: ExplainText(text: "Neue Wörter laden"),
+            child: ExplainText(text: 'Neue Wörter laden'),
           )
         ],
       ),
@@ -90,14 +90,14 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              children: <Widget>[
+              children: const <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: BodyText(text: "In diesem Modus muss von einem beliebigen Artikel innerhalb von 5 Klicks der Artikel 'Jesus Christus' erreicht werden."),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 40.0),
-                  child: HeaderText(text: "Deine Artikel sind"),
+                  child: HeaderText(text: 'Deine Artikel sind'),
                 )
               ],
             ),
@@ -108,13 +108,13 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
               onPressed: startNewGame,
-              child: ListText(text: "Spiel starten"),
+              child: ListText(text: 'Spiel starten'),
               color: Colors.red,
             ),
           ),
           FlatButton(
             onPressed: fetchArticles,
-            child: ExplainText(text: "Neue Wörter laden"),
+            child: ExplainText(text: 'Neue Wörter laden'),
           )
         ],
       ),
@@ -126,44 +126,62 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BodyText(text: "Dieser Modus ist leider noch nicht verfügbar"),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: const <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BodyText(text: 'In diesem Modus hast du zwei Minuten Zeit um das Ziel zu erreichen'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: HeaderText(text: 'Deine Artikel sind'),
+                )
+              ],
+            ),
           ),
+          ArticleExpansionTile(article: articles[0],),
+          ArticleExpansionTile(article: articles[1],),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
-              onPressed: goBack,
-              child: ListText(text: "Zurück"),
+              onPressed: startNewGame,
+              child: ListText(text: 'Spiel starten'),
               color: Colors.red,
             ),
           ),
-        ]
-      )
+          FlatButton(
+            onPressed: fetchArticles,
+            child: ExplainText(text: 'Neue Wörter laden'),
+          )
+        ],
+      ),
     );
   }
 
   void startNewGame() {
-    this.gameHandler.startGame(articles[0], articles[1]);
+    gameHandler.startGame(articles[0], articles[1]);
   }
 
   void goBack() {
-    this.gameHandler.setState(() =>
-      this.gameHandler.gameState = GameStates.menu
+    gameHandler.setState(() =>
+      gameHandler.gameState = GameState.menu
     );
   }
 
   void fetchArticles() async {
-    if (this.gameHandler.gameMode == GameModes.classic) {
-      this.articles = await getRandomArticles(2);
-    } else if (this.gameHandler.gameMode == GameModes.fiveToJesus) {
-      var rand = await getRandomArticles(1);
-      var jesus = await createArticleFromTitle("Jesus Christus");
-      this.articles.add(rand[0]);
-      this.articles.add(jesus);
+    if (gameHandler.gameMode == GameMode.classic || gameHandler.gameMode == GameMode.twoMinTimeTrial) {
+      articles = await getRandomArticles(2);
+    } else if (gameHandler.gameMode == GameMode.fiveToJesus) {
+      final rand = await getRandomArticles(1);
+      final jesus = await createArticleFromTitle('Jesus Christus');
+      articles
+        ..add(rand[0])
+        ..add(jesus);
     }
 
     setState(() {
-      this.articlesFetched = true;
+      articlesFetched = true;
     });
   }
 }

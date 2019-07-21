@@ -4,20 +4,21 @@ import 'package:http/http.dart' as http;
 
 import 'package:wikigame/api/wiki_article.dart';
 
-final wikiQueryUrl = "https://de.wikipedia.org/w/api.php?action=query&format=json";
+/// The base url to query the wikipedia api
+const wikiQueryUrl = 'https://de.wikipedia.org/w/api.php?action=query&format=json';
 
 /// Calls the Wikipedia API for random articles.
 /// Returns the given amount of articles.
 Future<List<WikiArticle>> getRandomArticles(int amount) async {
-  var url = "$wikiQueryUrl&list=random&rnlimit=$amount&rnnamespace=0";
+  final url = '$wikiQueryUrl&list=random&rnlimit=$amount&rnnamespace=0';
 
   final response = await http.get(url);
   final responseJSON = json.decode(response.body);
 
-  List<WikiArticle> articles = List<WikiArticle>();
+  final articles = <WikiArticle>[];
 
   // fetch both articles from response and convert them to WikiArticle
-  for (var articleJSON in responseJSON["query"]["random"]) {
+  for (var articleJSON in responseJSON['query']['random']) {
     articles.add(await createArticleFromJSON(articleJSON));
   }
 
@@ -26,12 +27,12 @@ Future<List<WikiArticle>> getRandomArticles(int amount) async {
 
 /// Fetches the id of the article by a given title
 Future<int> fetchIDFromTitle(String title) async {
-  var url = "$wikiQueryUrl&titles=$title&formatversion=2";
+  final url = '$wikiQueryUrl&titles=$title&formatversion=2';
 
   final response = await http.get(url);
   final responseJSON = json.decode(response.body);
 
-  return responseJSON["query"]["pages"][0]["pageid"];
+  return responseJSON['query']['pages'][0]['pageid'];
 }
 
 /// Fetches the summary for the article with the given id
@@ -40,44 +41,44 @@ Future<String> fetchArticleSummary(int id) async {
   // formatversion=2 makes sure, that the response pages are returned as json array.
   // This is needed because the id of an article could not be valid anymore because of
   // a redirect. (example on german wiki: Filmindustrie (1566124) became Filmwirtschaft (202198))
-  var url = "$wikiQueryUrl&prop=extracts&exintro&explaintext&redirects=1&pageids=$id&formatversion=2";
+  final url = '$wikiQueryUrl&prop=extracts&exintro&explaintext&redirects=1&pageids=$id&formatversion=2';
 
   final response = await http.get(url);
   final responseJSON = json.decode(response.body);
 
   // get page object
-  final pageObj = responseJSON["query"]["pages"][0];
+  final pageObj = responseJSON['query']['pages'][0];
 
-  if (pageObj.containsKey("extract")) {
-    return pageObj["extract"];
+  if (pageObj.containsKey('extract')) {
+    return pageObj['extract'];
   }
 
-  return "Zusammenfassung nicht verfügbar.";
+  return 'Zusammenfassung nicht verfügbar.';
 }
 
 /// Fetches all links in the article which lead to other wikipedia articles.
 /// The links are returned as a list of the titles of the article.
 Future<List<String>> fetchArticleLinksByTitle(String title) async {
-  var url = "$wikiQueryUrl&prop=links&pllimit=max&titles=$title&formatversion=2";
+  final url = '$wikiQueryUrl&prop=links&pllimit=max&titles=$title&formatversion=2';
 
   var response = await http.get(url);
   var responseJSON = json.decode(response.body);
 
-  List<String> links = List<String>();
+  final links = <String>[];
 
   while (true) {
     // parse page object
-    var pageObj = responseJSON["query"]["pages"][0];
-    var pageLinks = pageObj["links"];
+    final pageObj = responseJSON['query']['pages'][0];
+    final pageLinks = pageObj['links'];
 
     // fetch all links from response and add them to the link list
     for (var linkObj in pageLinks) {
-      if (linkObj["ns"] != 0) {
+      if (linkObj['ns'] != 0) {
         // link is not an article
         continue;
       }
 
-      links.add(linkObj["title"]);
+      links.add(linkObj['title']);
     }
 
     // check for continue key: ['continue']['plcontinue'] is available when
@@ -90,14 +91,20 @@ Future<List<String>> fetchArticleLinksByTitle(String title) async {
 
     // start new request
     final contParam = responseJSON['continue']['plcontinue'];
-    response = await http.get("$url&plcontinue=$contParam");
+    response = await http.get('$url&plcontinue=$contParam');
     responseJSON = json.decode(response.body);
   }
 
   return links;
 }
 
+/// Fetches an article by a given category
 Future<List<String>> fetchArticlesWithCategory(String category) async {
-  var url = "$wikiQueryUrl&cmnamespace=0&list=categorymembers&cmtitle=Category:$category";
-  return null;
+  final url = '$wikiQueryUrl&cmnamespace=0&list=categorymembers&cmtitle=Category:$category';
+
+  // TODO: Test
+  final response = await http.get(url);
+  final responseJSON = json.decode(response.body);
+
+  return responseJSON['query']['pages'][0]['pageid'];
 }

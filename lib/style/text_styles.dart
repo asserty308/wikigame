@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class HeaderText extends StatelessWidget {
-  final String text;
-
   const HeaderText({Key key, this.text}) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      this.text.toUpperCase(),
+      text.toUpperCase(),
       style: TextStyle(
           fontSize: 17.0,
           fontWeight: FontWeight.bold,
@@ -20,14 +20,14 @@ class HeaderText extends StatelessWidget {
 }
 
 class BodyText extends StatelessWidget {
-  final String text;
-
   const BodyText({Key key, this.text}) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      this.text,
+      text,
       style: TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.normal,
@@ -39,9 +39,9 @@ class BodyText extends StatelessWidget {
 }
 
 class ListText extends StatelessWidget {
-  final String text;
-
   const ListText({Key key, this.text}) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class ListText extends StatelessWidget {
       height: 50.0,
       child: Center(
         child: Text(
-          this.text.toUpperCase(),
+          text.toUpperCase(),
           style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.normal,
@@ -63,14 +63,14 @@ class ListText extends StatelessWidget {
 }
 
 class ExplainText extends StatelessWidget {
-  final String text;
-
   const ExplainText({Key key, this.text}) : super(key: key);
+  
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      this.text,
+      text,
       style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.normal,

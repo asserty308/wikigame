@@ -5,9 +5,9 @@ import 'package:wikigame/api/wiki_api.dart';
 /// Generates an WikiArticle object by parsing json
 /// The given json must contain the keys 'id' and 'title'
 Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json) async {
-  int id = json['id'];
-  String title = json['title'];
-  String summary = await fetchArticleSummary(id);
+  final int id = json['id'];
+  final String title = json['title'];
+  final summary = await fetchArticleSummary(id);
 
   return WikiArticle(
       id: id,
@@ -20,8 +20,8 @@ Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json) async {
 /// Generates an WikiArticle object by parsing json
 /// The given json must contain the keys 'id' and 'title'
 Future<WikiArticle> createArticleFromTitle(String title) async {
-  int id = await fetchIDFromTitle(title);
-  String summary = await fetchArticleSummary(id);
+  final id = await fetchIDFromTitle(title);
+  final summary = await fetchArticleSummary(id);
 
   return WikiArticle(
       id: id,
@@ -33,10 +33,6 @@ Future<WikiArticle> createArticleFromTitle(String title) async {
 
 /// Representation of a Wikipedia article.
 class WikiArticle {
-  int id;
-  String title, summary;
-  List<WikiArticle> links;
-
   WikiArticle({
     this.id,
     this.title,
@@ -44,13 +40,17 @@ class WikiArticle {
     this.links
   });
 
+  int id;
+  String title, summary;
+  List<WikiArticle> links;
+
   /// Returns the language specific url of the article
   /// TODO: Add multiple language support
   String getUrl() {
     if (title == null || title.isEmpty) {
-      return "";
+      return '';
     }
 
-    return "https://de.wikipedia.org/wiki/$title";
+    return 'https://de.wikipedia.org/wiki/$title';
   }
 }

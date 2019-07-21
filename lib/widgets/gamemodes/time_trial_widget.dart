@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:wikigame/widgets/fail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
@@ -6,18 +9,18 @@ import 'package:wikigame/widgets/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 
-class ClassicGameWidget extends StatefulWidget {
-  const ClassicGameWidget({this.startArticle, this.goalArticle, this.gameHandler});
+class TimeTrialWidget extends StatefulWidget {
+  const TimeTrialWidget({this.startArticle, this.goalArticle, this.gameHandler});
 
   final WikiArticle startArticle, goalArticle;
   final GameHandlerWidgetState gameHandler;
 
   @override
-  State<StatefulWidget> createState() => ClassicGameWidgetState(startArticle: startArticle, goalArticle: goalArticle, gameHandler: gameHandler);
+  State<StatefulWidget> createState() => TimeTrialWidgetState(startArticle: startArticle, goalArticle: goalArticle, gameHandler: gameHandler);
 }
 
-class ClassicGameWidgetState extends State<ClassicGameWidget> {
-  ClassicGameWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
+class TimeTrialWidgetState extends State<TimeTrialWidget> {
+  TimeTrialWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
 
   final WikiArticle startArticle, goalArticle;
   final GameHandlerWidgetState gameHandler;
@@ -25,6 +28,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   List<Widget> linkWidgets = <Widget>[];
   List<WikiArticle> clickedLinks = <WikiArticle>[];
   bool goalReached = false;
+  bool timeElapsed = false;
 
   @override
   void initState() {
@@ -43,6 +47,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
         elevation: 0.0,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: gameHandler.stopGame),),
       body:
+        timeElapsed ? FailWidget(clickedLinks: clickedLinks) :
         // check whether the goal has been reached. show congrats text when true
         goalReached ? SuccessWidget(clickedLinks: clickedLinks) :
         // goal not reached
@@ -88,6 +93,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
       );
     }
 
+    startTimeout();
     setState((){});
   }
 
@@ -111,4 +117,12 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     });
   }
 
+  startTimeout() {
+    return Timer(Duration(seconds: 120), handleTimeout);
+  }
+
+  handleTimeout() {
+    this.timeElapsed = true;
+    setState(() {});
+  }
 }

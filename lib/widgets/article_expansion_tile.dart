@@ -3,9 +3,9 @@ import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
 
 class ArticleExpansionTile extends StatelessWidget {
-  final WikiArticle article;
-
   const ArticleExpansionTile({this.article});
+  
+  final WikiArticle article;
 
   @override
   Widget build(BuildContext context) {

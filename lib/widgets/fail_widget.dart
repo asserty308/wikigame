@@ -3,15 +3,18 @@ import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
 import 'package:wikigame/widgets/article_expansion_tile.dart';
 
+/// This widget is presented when the user didn't find jesus within 5 moves
 class FailWidget extends StatelessWidget {
-  final List<WikiArticle> clickedLinks;
-
+  /// Constructor initializes the clickedLinks list
   const FailWidget({this.clickedLinks});
+
+  /// A list of all articles that have been selected during the last game
+  final List<WikiArticle> clickedLinks;
 
   @override
   Widget build(BuildContext context) {
-    var text = HeaderText(text: "Leider konntest du Jesus nicht in 5 Zügen erreichen. Versuche es doch erneut!");
-    var list = ListView.builder(
+    final text = HeaderText(text: 'Leider verloren. Versuche es doch erneut!');
+    final list = ListView.builder(
         itemCount: clickedLinks.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {

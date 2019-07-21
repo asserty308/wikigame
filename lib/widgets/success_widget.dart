@@ -4,14 +4,14 @@ import 'package:wikigame/style/text_styles.dart';
 import 'package:wikigame/widgets/article_expansion_tile.dart';
 
 class SuccessWidget extends StatelessWidget {
-  final List<WikiArticle> clickedLinks;
-
   const SuccessWidget({this.clickedLinks});
+
+  final List<WikiArticle> clickedLinks;
 
   @override
   Widget build(BuildContext context) {
-    var text = HeaderText(text: "Glückwunsch, Du hast das Ziel in ${clickedLinks.length-1} Zügen erreicht!");
-    var list = ListView.builder(
+    final text = HeaderText(text: 'Glückwunsch, Du hast das Ziel in ${clickedLinks.length-1} Zügen erreicht!');
+    final list = ListView.builder(
       itemCount: clickedLinks.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
