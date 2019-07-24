@@ -65,7 +65,22 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   /// generates a list of these links as well as a 'header' with information
   /// about the current goal.
   void fetchLinks() async {
-    final links = await fetchArticleLinksByTitle(clickedLinks.last.title);
+    var mightContainGoal = <String>[];
+    var links = await fetchArticleLinksByTitle(clickedLinks.last.title);
+
+    // filter out links starting with the first letter of the "goal article" and add them to the mightContainGoal list
+    links.removeWhere((i) {
+      var filterOut = i.toLowerCase().startsWith(goalArticle.title[0].toLowerCase());
+
+      if (filterOut) {
+        mightContainGoal.add(i);
+      }
+
+      return filterOut;
+    });
+
+    mightContainGoal.sort();
+    links.sort();
 
     // first row of the list should be the header
     final header = Column(
@@ -77,6 +92,16 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     );
 
     linkWidgets.add(header);
+
+    // add mightContainGoal
+    for (var l in mightContainGoal) {
+      linkWidgets.add(
+        ListTile(
+          title: ListText(text: l),
+          onTap: () => linkTapped(l),
+        )
+      );
+    }
 
     // create Text widgets to show the links in the listview
     for (var l in links) {
