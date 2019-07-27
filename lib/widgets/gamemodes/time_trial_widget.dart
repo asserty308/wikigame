@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/article_expansion_tile.dart';
+import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 

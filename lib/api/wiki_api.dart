@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert'; // json
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:wikigame/api/wiki_article.dart';
@@ -56,6 +57,25 @@ Future<String> fetchArticleSummary(int id) async {
   return 'Zusammenfassung nicht verfügbar.';
 }
 
+Future<Image> fetchArticleImage(int id) async {
+  final url = '$wikiQueryUrl&prop=pageimages&piprop=original&redirects=1&pageids=$id&formatversion=2';
+
+  final response = await http.get(url);
+  final responseJSON = json.decode(response.body);
+
+  final pageObj = responseJSON['query']['pages'][0];
+
+  if (pageObj.containsKey('original')) {
+    var url = pageObj['original']['source'];
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+    );
+  }
+
+  return null;
+}
+
 /// Fetches all links in the article which lead to other wikipedia articles.
 /// The links are returned as a list of the titles of the article.
 Future<List<String>> fetchArticleLinksByTitle(String title) async {
@@ -107,4 +127,21 @@ Future<List<String>> fetchArticlesWithCategory(String category) async {
   final responseJSON = json.decode(response.body);
 
   return responseJSON['query']['pages'][0]['pageid'];
+}
+
+Future<List<WikiArticle>> searchArticles(String searchTerm) async {
+  // perform a search for titles containing the searchTerm
+  final url = '$wikiQueryUrl&list=search&srsearch=$searchTerm&srwhat=title';
+
+  final response = await http.get(url);
+  final responseJSON = json.decode(response.body);
+
+  final articles = <WikiArticle>[];
+
+  // fetch both articles from response and convert them to WikiArticle
+  for (var articleJSON in responseJSON['query']['search']) {
+    articles.add(await createArticleFromJSON(articleJSON));
+  }
+
+  return articles;
 }

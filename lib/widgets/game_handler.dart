@@ -1,7 +1,7 @@
 import 'package:wikigame/widgets/gamemodes/time_trial_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/widgets/gamemodes/classic_game_widget.dart';
+import 'package:wikigame/widgets/gamemodes/classic/classic_game_widget.dart';
 import 'package:wikigame/widgets/gamemodes/five_to_jesus_widget.dart';
 import 'package:wikigame/widgets/select_game_mode.dart';
 import 'package:wikigame/widgets/start_new_game.dart';
@@ -72,16 +72,12 @@ class GameHandlerWidgetState extends State<GameHandlerWidget> {
 
   Widget getCurrentWidget() {
     switch (gameState) {
-      case GameState.menu: return SelectGameMode(gameHandler: this);
+      case GameState.menu: return SelectGameModeWidget();
       case GameState.stopped: return StartNewGameWidget(this);
       case GameState.started:
         {
           if (gameMode == GameMode.classic) {
-            return ClassicGameWidget(
-              startArticle: startArticle,
-              goalArticle: goalArticle,
-              gameHandler: this,
-            );
+            return ClassicGameWidget();
           } else if (gameMode == GameMode.fiveToJesus) {
             return FiveToJesusWidget(
               startArticle: startArticle,

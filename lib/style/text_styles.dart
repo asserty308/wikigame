@@ -12,8 +12,8 @@ class HeaderText extends StatelessWidget {
       style: TextStyle(
           fontSize: 17.0,
           fontWeight: FontWeight.bold,
-          fontFamily: 'PressStart2P',
-          color: Colors.white),
+          fontFamily: 'Roboto',
+          color: Colors.black),
       textAlign: TextAlign.center,
     );
   }
@@ -31,8 +31,8 @@ class BodyText extends StatelessWidget {
       style: TextStyle(
           fontSize: 14.0,
           fontWeight: FontWeight.normal,
-          fontFamily: 'PressStart2P',
-          color: Colors.white),
+          fontFamily: 'Roboto',
+          color: Colors.black),
       textAlign: TextAlign.center,
     );
   }
@@ -53,8 +53,8 @@ class ListText extends StatelessWidget {
           style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.normal,
-              fontFamily: 'PressStart2P',
-              color: Colors.white,),
+              fontFamily: 'Roboto',
+              color: Colors.black,),
           textAlign: TextAlign.center,
         ),
       ),
@@ -74,8 +74,8 @@ class ExplainText extends StatelessWidget {
       style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.normal,
-          fontFamily: 'PressStart2P',
-          color: Colors.white),
+          fontFamily: 'Roboto',
+          color: Colors.black),
       textAlign: TextAlign.center,
     );
   }

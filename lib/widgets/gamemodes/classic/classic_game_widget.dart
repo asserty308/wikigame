@@ -2,47 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/article_expansion_tile.dart';
-import 'package:wikigame/widgets/game_handler.dart';
+import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 
 class ClassicGameWidget extends StatefulWidget {
-  const ClassicGameWidget({this.startArticle, this.goalArticle, this.gameHandler});
-
-  final WikiArticle startArticle, goalArticle;
-  final GameHandlerWidgetState gameHandler;
-
   @override
-  State<StatefulWidget> createState() => ClassicGameWidgetState(startArticle: startArticle, goalArticle: goalArticle, gameHandler: gameHandler);
+  State<StatefulWidget> createState() => ClassicGameWidgetState();
 }
 
 class ClassicGameWidgetState extends State<ClassicGameWidget> {
-  ClassicGameWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
-
-  final WikiArticle startArticle, goalArticle;
-  final GameHandlerWidgetState gameHandler;
+  List<WikiArticle> articles = <WikiArticle>[];
+  bool articlesFetched = false;
 
   List<Widget> linkWidgets = <Widget>[];
   List<WikiArticle> clickedLinks = <WikiArticle>[];
   bool goalReached = false;
+  bool gameStarted = false;
 
   @override
   void initState() {
     super.initState();
 
-    clickedLinks.add(startArticle);
-    fetchLinks();
+    fetchArticles();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: gameHandler.stopGame),),
+        title: Text('Klassischer Modus'),
+      ),
       body:
+        !articlesFetched ? Center(child: CircularProgressIndicator()) : 
+        !gameStarted ? buildClassicModeWidget() :
         // check whether the goal has been reached. show congrats text when true
         goalReached ? SuccessWidget(clickedLinks: clickedLinks) :
         // goal not reached
@@ -61,6 +54,59 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     );
   }
 
+  Widget buildClassicModeWidget() {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: const <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BodyText(text: 'In diesem Modus werden Start und Ziel zufällig ausgewählt'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: HeaderText(text: 'Deine Artikel sind'),
+                )
+              ],
+            ),
+          ),
+          ArticleExpansionTile(article: articles[0],),
+          ArticleExpansionTile(article: articles[1],),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: RaisedButton(
+              onPressed: startRandomGame,
+              child: ListText(text: 'Spiel starten'),
+              color: Colors.red,
+            ),
+          ),
+          FlatButton(
+            onPressed: fetchArticles,
+            child: ExplainText(text: 'Neue Artikel laden'),
+          )
+        ],
+      ),
+    );
+  }
+
+  void startRandomGame() async {
+    gameStarted = true;
+    fetchLinks();
+  }
+
+  void fetchArticles() async {
+    clickedLinks.clear();
+    articles = await getRandomArticles(2);
+    articlesFetched = true;
+    clickedLinks.add(articles[0]);
+
+    setState(() { 
+    });
+  }
+
   /// Calls the wiki api for links on the current article and
   /// generates a list of these links as well as a 'header' with information
   /// about the current goal.
@@ -70,7 +116,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
 
     // filter out links starting with the first letter of the "goal article" and add them to the mightContainGoal list
     links.removeWhere((i) {
-      var filterOut = i.toLowerCase().startsWith(goalArticle.title[0].toLowerCase());
+      var filterOut = i.toLowerCase().startsWith(articles[1].title[0].toLowerCase());
 
       if (filterOut) {
         mightContainGoal.add(i);
@@ -86,7 +132,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     final header = Column(
       children: <Widget>[
         HeaderText(text: 'Ziel'),
-        ArticleExpansionTile(article: goalArticle,),
+        ArticleExpansionTile(article: articles[1],),
         HeaderText(text: 'Mögliche Links'),
       ],
     );
@@ -125,7 +171,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     linkWidgets.clear();
 
     // check whether the user reached the goal
-    if (goalArticle.id == tappedArticle.id) {
+    if (articles[1].id == tappedArticle.id) {
       goalReached = true;
     }
 

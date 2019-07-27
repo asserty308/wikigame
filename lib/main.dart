@@ -1,23 +1,34 @@
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
-import 'package:wikigame/main_screen.dart';
+import 'package:wikigame/widgets/articles/article_details_screen.dart';
+import 'package:wikigame/widgets/gamemodes/classic/classic_game_widget.dart';
+import 'package:wikigame/widgets/gamemodes/five_to_jesus_widget.dart';
+import 'package:wikigame/widgets/gamemodes/time_trial_widget.dart';
+import 'package:wikigame/widgets/select_game_mode.dart';
 
 void main() {
   // platform override necessary for flutter to recognize windows as a platform
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  runApp(new MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Wikigame',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => SelectGameModeWidget(),
+        '/classic': (context) => ClassicGameWidget(),
+        '/five_to_jesus': (context) => FiveToJesusWidget(),
+        '/time_trial': (context) => TimeTrialWidget(),
+        '/article_details': (context) => ArticleScreen(),
+      }
     );
   }
 }
