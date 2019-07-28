@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
+import 'package:wikigame/widgets/articles/widgets/article_tile.dart';
+import 'package:wikigame/widgets/game_handler.dart';
+import 'package:wikigame/widgets/gamemodes/widgets/start_game_widget.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 
 class ClassicGameWidget extends StatefulWidget {
@@ -11,7 +14,6 @@ class ClassicGameWidget extends StatefulWidget {
 }
 
 class ClassicGameWidgetState extends State<ClassicGameWidget> {
-  List<WikiArticle> articles = <WikiArticle>[];
   bool articlesFetched = false;
 
   List<Widget> linkWidgets = <Widget>[];
@@ -28,82 +30,108 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Klassischer Modus'),
-      ),
-      body:
-        !articlesFetched ? Center(child: CircularProgressIndicator()) : 
-        !gameStarted ? buildClassicModeWidget() :
-        // check whether the goal has been reached. show congrats text when true
-        goalReached ? SuccessWidget(clickedLinks: clickedLinks) :
-        // goal not reached
-        linkWidgets.isEmpty ?
-        // show progress indicator until data has been fetched
-        Center(child: CircularProgressIndicator()) :
-        // show fetched data
-        // ListView.builder constructor will create items as they are scrolled onto the screen
-        // This is more efficient then the default ListView constructor
-        ListView.builder(
-          itemCount: linkWidgets.length,
-          itemBuilder: (context, index) {
-            return linkWidgets[index];
-          }
+    return WillPopScope(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(clickedLinks.isEmpty ? 'Klassischer Modus' : clickedLinks.last.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info_outline, color: Colors.white,),
+              onPressed: () => showInfoDialog(context),
+            ),
+            IconButton(
+              icon: Icon(Icons.autorenew, color: Colors.white,),
+              onPressed: fetchArticles,
+            ),
+          ],
         ),
+        body:
+          !articlesFetched ? Center(child: CircularProgressIndicator()) : 
+          !gameStarted ? buildClassicModeWidget() :
+          // check whether the goal has been reached. show congrats text when true
+          goalReached ? SuccessWidget(clickedLinks: clickedLinks) :
+          // goal not reached
+          linkWidgets.isEmpty ?
+          // show progress indicator until data has been fetched
+          Center(child: CircularProgressIndicator()) :
+          // show fetched data
+          // ListView.builder constructor will create items as they are scrolled onto the screen
+          // This is more efficient then the default ListView constructor
+          ListView.builder(
+            itemCount: linkWidgets.length,
+            itemBuilder: (context, index) {
+              return linkWidgets[index];
+            }
+          ),
+      ),
+      onWillPop: () {
+        return showPopDialog(context);
+      },
     );
   }
 
   Widget buildClassicModeWidget() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: const <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BodyText(text: 'In diesem Modus werden Start und Ziel zufällig ausgewählt'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: HeaderText(text: 'Deine Artikel sind'),
-                )
-              ],
-            ),
-          ),
-          ArticleExpansionTile(article: articles[0],),
-          ArticleExpansionTile(article: articles[1],),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: RaisedButton(
-              onPressed: startRandomGame,
-              child: ListText(text: 'Spiel starten'),
-              color: Colors.red,
-            ),
-          ),
-          FlatButton(
-            onPressed: fetchArticles,
-            child: ExplainText(text: 'Neue Artikel laden'),
-          )
-        ],
-      ),
+    return StartGameWidget(
+      onStart: startGame,
+      onFetch: fetchArticles,
     );
   }
 
-  void startRandomGame() async {
+  void showInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Info'),
+          content: Text('In diesem Modus werden Start und Ziel zunächst zufällig ausgewählt. Du kannst die Artikel jedoch ändern, indem du diesen für einen Moment gedrückt hältst. Details zu einem Artikel erhältst du, wenn du diesen kurz antippst.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop()
+            )
+          ],
+        );
+      }
+    );
+  }
+
+  Future<bool> showPopDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Achtung'),
+          content: Text('Möchtest du das Spiel wirklich beenden?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Nein'),
+              onPressed: () => Navigator.pop(context, false), // only pop dialog
+            ),
+            FlatButton(
+              child: Text('Ja'),
+              onPressed: () => Navigator.pop(context, true), // pop screen
+            ),
+          ],
+        );
+      }
+    );
+  }
+
+  void startGame() async {
+    clickedLinks.add(globalStartArticle);
     gameStarted = true;
     fetchLinks();
   }
 
   void fetchArticles() async {
     clickedLinks.clear();
-    articles = await getRandomArticles(2);
-    articlesFetched = true;
-    clickedLinks.add(articles[0]);
+    var articles = await getRandomArticlesWithImage(2);
+    globalStartArticle = articles[0];
+    globalGoalArticle = articles[1];
 
-    setState(() { 
+    setState(() {
+      articlesFetched = true;
     });
   }
 
@@ -116,7 +144,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
 
     // filter out links starting with the first letter of the "goal article" and add them to the mightContainGoal list
     links.removeWhere((i) {
-      var filterOut = i.toLowerCase().startsWith(articles[1].title[0].toLowerCase());
+      var filterOut = i.toLowerCase().startsWith(globalGoalArticle.title[0].toLowerCase());
 
       if (filterOut) {
         mightContainGoal.add(i);
@@ -132,7 +160,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     final header = Column(
       children: <Widget>[
         HeaderText(text: 'Ziel'),
-        ArticleExpansionTile(article: articles[1],),
+        ArticleTile(article: globalGoalArticle,),
         HeaderText(text: 'Mögliche Links'),
       ],
     );
@@ -171,7 +199,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     linkWidgets.clear();
 
     // check whether the user reached the goal
-    if (articles[1].id == tappedArticle.id) {
+    if (globalGoalArticle.id == tappedArticle.id) {
       goalReached = true;
     }
 

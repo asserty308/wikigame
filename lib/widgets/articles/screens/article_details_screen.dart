@@ -7,6 +7,12 @@ class ArticleScreenArguments {
   ArticleScreenArguments(this.article);
 }
 
+/// Must be called as follows
+/// Navigator.pushNamed(
+///   context, 
+///   '/article_details', 
+///   arguments: ArticleScreenArguments(article),
+/// );
 class ArticleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,7 @@ class ArticleScreen extends StatelessWidget {
 
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
               expandedHeight: 200.0,
@@ -29,7 +35,8 @@ class ArticleScreen extends StatelessWidget {
             )
           ];
         },
-        body: Center(
+        body: Padding(
+          padding: EdgeInsets.all(24.0),
           child: Text(args.article.summary),
         ),
       ),

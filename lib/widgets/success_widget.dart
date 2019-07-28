@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
+import 'package:wikigame/widgets/articles/widgets/article_tile.dart';
 
 class SuccessWidget extends StatelessWidget {
   const SuccessWidget({this.clickedLinks});
@@ -21,7 +21,7 @@ class SuccessWidget extends StatelessWidget {
           );
         }
 
-        return ArticleExpansionTile(article: clickedLinks[index-1],);
+        return ArticleTile(article: clickedLinks[index-1],);
       }
     );
 

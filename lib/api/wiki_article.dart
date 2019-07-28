@@ -5,8 +5,8 @@ import 'package:wikigame/api/wiki_api.dart';
 
 /// Generates an WikiArticle object by parsing json
 /// The given json must contain the keys 'id' and 'title'
-Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json) async {
-  final int id = json['id'];
+Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json, {String idKey = 'id'}) async {
+  final int id = json[idKey];
   final String title = json['title'];
   final summary = await fetchArticleSummary(id);
   final image = await fetchArticleImage(id);

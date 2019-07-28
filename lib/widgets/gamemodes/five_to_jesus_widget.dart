@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
+import 'package:wikigame/widgets/articles/widgets/article_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 import 'package:wikigame/widgets/fail_widget.dart';
@@ -74,7 +74,7 @@ class FiveToJesusWidgetState extends State<FiveToJesusWidget> {
     final header = Column(
       children: <Widget>[
         HeaderText(text: 'Ziel'),
-        ArticleExpansionTile(article: jesus),
+        ArticleTile(article: jesus),
         HeaderText(text: 'Mögliche Links'),
       ],
     );

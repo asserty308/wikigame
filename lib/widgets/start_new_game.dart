@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
+import 'package:wikigame/widgets/articles/widgets/article_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
 
 class StartNewGameWidget extends StatefulWidget {
@@ -64,8 +64,8 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
               ],
             ),
           ),
-          ArticleExpansionTile(article: articles[0],),
-          ArticleExpansionTile(article: articles[1],),
+          ArticleTile(article: articles[0],),
+          ArticleTile(article: articles[1],),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
@@ -102,8 +102,8 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
               ],
             ),
           ),
-          ArticleExpansionTile(article: articles[0],),
-          ArticleExpansionTile(article: articles[1],),
+          ArticleTile(article: articles[0],),
+          ArticleTile(article: articles[1],),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
@@ -140,8 +140,8 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
               ],
             ),
           ),
-          ArticleExpansionTile(article: articles[0],),
-          ArticleExpansionTile(article: articles[1],),
+          ArticleTile(article: articles[0],),
+          ArticleTile(article: articles[1],),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
@@ -171,9 +171,9 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
 
   void fetchArticles() async {
     if (gameHandler.gameMode == GameMode.classic || gameHandler.gameMode == GameMode.twoMinTimeTrial) {
-      articles = await getRandomArticles(2);
+      articles = await getRandomArticlesWithImage(2);
     } else if (gameHandler.gameMode == GameMode.fiveToJesus) {
-      final rand = await getRandomArticles(1);
+      final rand = await getRandomArticlesWithImage(1);
       final jesus = await createArticleFromTitle('Jesus Christus');
       articles
         ..add(rand[0])

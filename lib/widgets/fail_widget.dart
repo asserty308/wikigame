@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/articles/article_expansion_tile.dart';
+import 'package:wikigame/widgets/articles/widgets/article_tile.dart';
 
 /// This widget is presented when the user didn't find jesus within 5 moves
 class FailWidget extends StatelessWidget {
@@ -24,7 +24,7 @@ class FailWidget extends StatelessWidget {
             );
           }
 
-          return ArticleExpansionTile(article: clickedLinks[index-1],);
+          return ArticleTile(article: clickedLinks[index-1],);
         }
     );
 

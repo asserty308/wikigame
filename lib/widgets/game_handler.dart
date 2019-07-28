@@ -19,6 +19,8 @@ enum GameMode {
   twoMinTimeTrial
 }
 
+WikiArticle globalStartArticle, globalGoalArticle;
+
 class GameHandlerWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => GameHandlerWidgetState();
