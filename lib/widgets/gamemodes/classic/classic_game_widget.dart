@@ -40,10 +40,6 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
               icon: Icon(Icons.info_outline, color: Colors.white,),
               onPressed: () => showInfoDialog(context),
             ),
-            IconButton(
-              icon: Icon(Icons.autorenew, color: Colors.white,),
-              onPressed: fetchArticles,
-            ),
           ],
         ),
         body:
@@ -84,7 +80,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
       builder: (context) {
         return AlertDialog(
           title: Text('Info'),
-          content: Text('In diesem Modus werden Start und Ziel zunächst zufällig ausgewählt. Du kannst die Artikel jedoch ändern, indem du diesen für einen Moment gedrückt hältst. Details zu einem Artikel erhältst du, wenn du diesen kurz antippst.'),
+          content: Text('In diesem Modus werden Start und Ziel zunächst zufällig ausgewählt. Du kannst die Artikel jedoch ändern, indem du den entsprechenden Artikel für einen Moment gedrückt hältst. Details zu einem Artikel erhältst du, wenn du diesen kurz antippst.'),
           actions: <Widget>[
             FlatButton(
               child: Text('OK'),
@@ -125,11 +121,18 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   }
 
   void fetchArticles() async {
-    clickedLinks.clear();
-    var articles = await getRandomArticlesWithImage(2);
+    // update state to show progress indicator
+    setState(() {
+      articlesFetched = false;
+      clickedLinks.clear();
+    });
+
+    // load random articles
+    var articles = await getRandomArticles(2); // getRandomArticlesWithImage(2) is slow
     globalStartArticle = articles[0];
     globalGoalArticle = articles[1];
 
+    // update state to display the fetched articles
     setState(() {
       articlesFetched = true;
     });
