@@ -171,9 +171,9 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
 
   void fetchArticles() async {
     if (gameHandler.gameMode == GameMode.classic || gameHandler.gameMode == GameMode.twoMinTimeTrial) {
-      articles = await getRandomArticlesWithImage(2);
+      articles = await getRandomArticles(2);
     } else if (gameHandler.gameMode == GameMode.fiveToJesus) {
-      final rand = await getRandomArticlesWithImage(1);
+      final rand = await getRandomArticles(1);
       final jesus = await createArticleFromTitle('Jesus Christus');
       articles
         ..add(rand[0])
