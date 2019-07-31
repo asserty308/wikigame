@@ -56,6 +56,10 @@ class ArticleTileState extends State<ArticleTile> {
     );
 
     setState(() {
+      if (result == null) {
+        return;
+      }
+
       if (type == ArticleType.start) {
         globalStartArticle = result;
       } else if (type == ArticleType.goal) {
