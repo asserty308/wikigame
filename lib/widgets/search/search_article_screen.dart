@@ -96,7 +96,10 @@ class ArticleSearchDelegate extends SearchDelegate {
           );
         }
 
-        return Column();
+        // show progress indicator when search results aren't available
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
