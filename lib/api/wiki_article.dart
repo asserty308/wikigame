@@ -48,7 +48,7 @@ class WikiArticle {
 
   int id;
   String title, summary;
-  Image image;
+  Widget image;
   List<WikiArticle> links;
 
   /// Returns the language specific url of the article

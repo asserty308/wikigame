@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert'; // json
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:wikigame/api/wiki_article.dart';
 
@@ -75,7 +76,7 @@ Future<String> fetchArticleSummary(int id) async {
   return 'Zusammenfassung nicht verfügbar.';
 }
 
-Future<Image> fetchArticleImage(int id) async {
+Future<Widget> fetchArticleImage(int id) async {
   final url = '$wikiQueryUrl&prop=pageimages&piprop=original&redirects=1&pageids=$id&formatversion=2';
   final responseJSON = await getJSON(url);
 
@@ -83,6 +84,16 @@ Future<Image> fetchArticleImage(int id) async {
 
   if (pageObj.containsKey('original')) {
     var url = pageObj['original']['source'];
+
+    // Image lib does not support SVG images yet
+    print('Loading image url $url');
+    if (url.endsWith('.svg')) {
+      return SvgPicture.network(
+        url,
+        fit: BoxFit.cover,
+      );
+    }
+
     return Image.network(
       url,
       fit: BoxFit.cover,
