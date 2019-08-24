@@ -9,13 +9,11 @@ Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json, {String idK
   final int id = json[idKey];
   final String title = json['title'];
   final summary = await fetchArticleSummary(id);
-  final image = await fetchArticleImage(id);
 
   return WikiArticle(
       id: id,
       title: title,
       summary: summary,
-      image: image,
       links: null
   );
 }
@@ -25,13 +23,11 @@ Future<WikiArticle> createArticleFromJSON(Map<String, dynamic> json, {String idK
 Future<WikiArticle> createArticleFromTitle(String title) async {
   final id = await fetchIDFromTitle(title);
   final summary = await fetchArticleSummary(id);
-  final image = await fetchArticleImage(id);
 
   return WikiArticle(
       id: id,
       title: title,
       summary: summary,
-      image: image,
       links: null
   );
 }
@@ -42,13 +38,11 @@ class WikiArticle {
     this.id,
     this.title,
     this.summary,
-    this.image,
     this.links
   });
 
   int id;
   String title, summary;
-  Widget image;
   List<WikiArticle> links;
 
   /// Returns the language specific url of the article

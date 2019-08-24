@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 
 class ArticleScreenArguments {
@@ -13,11 +14,26 @@ class ArticleScreenArguments {
 ///   '/article_details', 
 ///   arguments: ArticleScreenArguments(article),
 /// );
-class ArticleScreen extends StatelessWidget {
+class ArticleScreen extends StatefulWidget {
+  createState() => ArticleScreenState();
+}
+
+class ArticleScreenState extends State<ArticleScreen> {
+  ArticleScreenArguments args;
+  Widget sliverBackground;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // run 'afterFirstlayout' after first build()
+    WidgetsBinding.instance.addPostFrameCallback((_) => afterFirstlayout(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     // Extract arguments from the current route and cast them as ArticleScreenArguments
-    final ArticleScreenArguments args = ModalRoute.of(context).settings.arguments;
+    args = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       body: NestedScrollView(
@@ -30,7 +46,7 @@ class ArticleScreen extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text(args.article.title),
-                background: args.article.image,
+                background: sliverBackground,
               ),
             )
           ];
@@ -42,4 +58,15 @@ class ArticleScreen extends StatelessWidget {
       ),
     );
   }
+
+  void afterFirstlayout(BuildContext context) {
+    fetchBackground();
+  }
+
+  void fetchBackground() async {
+    sliverBackground = await fetchArticleImage(args.article.id);
+    setState(() { 
+    });
+  }
+
 }

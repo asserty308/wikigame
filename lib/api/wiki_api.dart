@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:wikigame/api/wiki_article.dart';
+import 'package:wikigame/tools/image_utils.dart';
 
 /// The base url to query the wikipedia api
 const wikiQueryUrl = 'https://de.wikipedia.org/w/api.php?action=query&format=json';
@@ -39,13 +40,13 @@ Future<List<WikiArticle>> getRandomArticlesWithImage(int amount) async {
   // Search 'amount' articles containing an image
   while (articles.length < amount) {
     // Fetch one article per run until 'amount' articles are available.
-    var articleList = await getRandomArticles(1); 
-    var article = articleList[0];
+    //var articleList = await getRandomArticles(1); 
+    //var article = articleList[0];
 
     // When the fetched article contains an image it is added to the 'articles' list
-    if (article.image != null) {
-      articles.add(article);
-    }
+    //if (article.image != null) {
+    //  articles.add(article);
+    //}
   }
 
   return articles;
@@ -83,21 +84,11 @@ Future<Widget> fetchArticleImage(int id) async {
   final pageObj = responseJSON['query']['pages'][0];
 
   if (pageObj.containsKey('original')) {
-    var url = pageObj['original']['source'];
+    var imageUrl = pageObj['original']['source'];
 
     // Image lib does not support SVG images yet
-    print('Loading image url $url');
-    if (url.endsWith('.svg')) {
-      return SvgPicture.network(
-        url,
-        fit: BoxFit.cover,
-      );
-    }
-
-    return Image.network(
-      url,
-      fit: BoxFit.cover,
-    );
+    print('Loading image url $imageUrl');
+    return YAImage.fromUrl(imageUrl);
   }
 
   return null;
