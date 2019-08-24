@@ -46,7 +46,10 @@ class ArticleScreenState extends State<ArticleScreen> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text(args.article.title),
-                background: sliverBackground,
+                background: Opacity(
+                  opacity: 0.7,
+                  child: sliverBackground
+                ),
               ),
             )
           ];
@@ -64,7 +67,7 @@ class ArticleScreenState extends State<ArticleScreen> {
   }
 
   void fetchBackground() async {
-    sliverBackground = await fetchArticleImage(args.article.id);
+    sliverBackground = await WikiAPI.fetchArticleImage(args.article.id);
     setState(() { 
     });
   }

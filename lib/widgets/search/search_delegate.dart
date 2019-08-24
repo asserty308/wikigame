@@ -37,7 +37,7 @@ class ArticleSearchDelegate extends SearchDelegate {
   }
 
   Widget showSearchResults() {
-    var articles = searchArticles(query);
+    var articles = WikiAPI.searchArticles(query);
 
     return FutureBuilder<List<WikiArticle>>(
       future: articles,

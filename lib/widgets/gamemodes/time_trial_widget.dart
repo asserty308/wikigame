@@ -70,7 +70,7 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
   /// generates a list of these links as well as a 'header' with information
   /// about the current goal.
   void fetchLinks() async {
-    final links = await fetchArticleLinksByTitle(clickedLinks.last.title);
+    final links = await WikiAPI.fetchArticleLinksByTitle(clickedLinks.last.title);
 
     // first row of the list should be the header
     final header = Column(
@@ -101,7 +101,7 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
   /// Appends the selected article to the clickedLinks list and
   /// refreshes the site with the new article.
   void linkTapped(String title) async {
-    final tappedArticle = await createArticleFromTitle(title);
+    final tappedArticle = await WikiArticle.createFromTitle(title);
     clickedLinks.add(tappedArticle);
     linkWidgets.clear();
 

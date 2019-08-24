@@ -67,8 +67,8 @@ class FiveToJesusWidgetState extends State<FiveToJesusWidget> {
   /// generates a list of these links as well as a 'header' with information
   /// about the current goal.
   void fetchLinks() async {
-    final links = await fetchArticleLinksByTitle(clickedLinks.last.title);
-    final jesus = await createArticleFromTitle('Jesus Christus');
+    final links = await WikiAPI.fetchArticleLinksByTitle(clickedLinks.last.title);
+    final jesus = await WikiArticle.createFromTitle('Jesus Christus');
 
     // first row of the list should be the header
     final header = Column(
@@ -98,8 +98,8 @@ class FiveToJesusWidgetState extends State<FiveToJesusWidget> {
   /// Appends the selected article to the clickedLinks list and
   /// refreshes the site with the new article.
   void linkTapped(String title) async {
-    final tappedArticle = await createArticleFromTitle(title);
-    final jesus = await createArticleFromTitle('Jesus Christus');
+    final tappedArticle = await WikiArticle.createFromTitle(title);
+    final jesus = await WikiArticle.createFromTitle('Jesus Christus');
 
     clickedLinks.add(tappedArticle);
     linkWidgets.clear();

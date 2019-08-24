@@ -32,7 +32,6 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(clickedLinks.isEmpty ? 'Klassischer Modus' : clickedLinks.last.title),
           actions: <Widget>[
@@ -128,7 +127,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
     });
 
     // load random articles
-    var articles = await getRandomArticles(2); // getRandomArticlesWithImage(2) is slow
+    var articles = await WikiAPI.getRandomArticles(2); // getRandomArticlesWithImage(2) is slow
     globalStartArticle = articles[0];
     globalGoalArticle = articles[1];
 
@@ -143,7 +142,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   /// about the current goal.
   void fetchLinks() async {
     var mightContainGoal = <String>[];
-    var links = await fetchArticleLinksByTitle(clickedLinks.last.title);
+    var links = await WikiAPI.fetchArticleLinksByTitle(clickedLinks.last.title);
 
     // filter out links starting with the first letter of the "goal article" and add them to the mightContainGoal list
     links.removeWhere((i) {
@@ -197,7 +196,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
   /// Appends the selected article to the clickedLinks list and
   /// refreshes the site with the new article.
   void linkTapped(String title) async {
-    final tappedArticle = await createArticleFromTitle(title);
+    final tappedArticle = await WikiArticle.createFromTitle(title);
     clickedLinks.add(tappedArticle);
     linkWidgets.clear();
 

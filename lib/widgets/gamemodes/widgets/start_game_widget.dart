@@ -30,8 +30,7 @@ class StartGameWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: RaisedButton(
               onPressed: onStart,
-              child: ListText(text: 'Spiel starten', color: Colors.white,),
-              color: Colors.blue,
+              child: ListText(text: 'Spiel starten'),
             ),
           ),
           FlatButton(

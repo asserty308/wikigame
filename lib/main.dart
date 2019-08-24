@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wikigame',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        primaryColor: Colors.black
       ),
       initialRoute: '/',
       routes: {

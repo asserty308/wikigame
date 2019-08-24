@@ -9,7 +9,7 @@ class HeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text.toUpperCase(),
-      style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.black),
+      style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
     );
   }
@@ -24,17 +24,16 @@ class BodyText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.black),
+      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
       textAlign: TextAlign.center,
     );
   }
 }
 
 class ListText extends StatelessWidget {
-  const ListText({Key key, this.text, this.color = Colors.black}) : super(key: key);
+  const ListText({Key key, this.text}) : super(key: key);
 
   final String text;
-  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class ListText extends StatelessWidget {
       child: Center(
         child: Text(
           text.toUpperCase(),
-          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal, color: color,),
+          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
           textAlign: TextAlign.center,
         ),
       ),
@@ -60,7 +59,7 @@ class ExplainText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.black),
+      style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal),
       textAlign: TextAlign.center,
     );
   }
