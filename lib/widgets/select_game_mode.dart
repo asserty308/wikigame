@@ -8,6 +8,12 @@ class SelectGameModeWidget extends StatelessWidget {
       appBar: AppBar(
         title: Text('Spielmodus auswählen'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () => showSettings(context),
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -41,7 +47,7 @@ class SelectGameModeWidget extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -87,5 +93,9 @@ class SelectGameModeWidget extends StatelessWidget {
         );
       }
     );
+  }
+
+  void showSettings(BuildContext context) {
+    Navigator.pushNamed(context, '/settings');
   }
 }

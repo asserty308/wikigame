@@ -27,7 +27,7 @@ class ArticleScreenState extends State<ArticleScreen> {
     super.initState();
 
     // run 'afterFirstlayout' after first build()
-    WidgetsBinding.instance.addPostFrameCallback((_) => afterFirstlayout(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => afterFirstLayout(context));
   }
 
   @override
@@ -62,7 +62,7 @@ class ArticleScreenState extends State<ArticleScreen> {
     );
   }
 
-  void afterFirstlayout(BuildContext context) {
+  void afterFirstLayout(BuildContext context) {
     fetchBackground();
   }
 

@@ -1,5 +1,6 @@
 name: wikigame
-description: An example project for flutter-desktop-embedding.
+description: The Wikipedia game
+version: 0.1.0+1
 
 environment:
   sdk: '>=2.0.0 <3.0.0'
@@ -15,6 +16,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   http: ^0.12.0+2
   flutter_svg: ^0.14.0
+  package_info: ^0.4.0+6
+  shared_preferences: ^0.5.3+4
 
 dev_dependencies:
   flutter_test:
@@ -22,23 +25,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  # See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: fonts/Roboto/Roboto-Thin.ttf
-          weight: 100
-        - asset: fonts/Roboto/Roboto-Light.ttf
-          weight: 300
-        - asset: fonts/Roboto/Roboto-Regular.ttf
-          weight: 400
-        - asset: fonts/Roboto/Roboto-Medium.ttf
-          weight: 500
-        - asset: fonts/Roboto/Roboto-Bold.ttf
-          weight: 700
-        - asset: fonts/Roboto/Roboto-Black.ttf
-          weight: 900
-    - family: PressStart2P
-      fonts:
-        - asset: fonts/Press_Start_2P/PressStart2P-Regular.ttf

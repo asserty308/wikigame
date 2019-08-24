@@ -36,7 +36,7 @@ class ClassicGameWidgetState extends State<ClassicGameWidget> {
           title: Text(clickedLinks.isEmpty ? 'Klassischer Modus' : clickedLinks.last.title),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.info_outline, color: Colors.white,),
+              icon: Icon(Icons.info_outline),
               onPressed: () => showInfoDialog(context),
             ),
           ],
