@@ -1,7 +1,11 @@
 //import 'package:flutter/foundation.dart'
     //show debugDefaultTargetPlatformOverride;
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wikigame/tools/globals.dart';
 import 'package:wikigame/widgets/articles/screens/article_details_screen.dart';
 import 'package:wikigame/widgets/gamemodes/classic/classic_game_widget.dart';
 import 'package:wikigame/widgets/gamemodes/five_to_jesus_widget.dart';
@@ -13,8 +17,18 @@ import 'package:wikigame/widgets/settings/settings_screen.dart';
 void main() async {
   // platform override necessary for flutter to recognize windows as a platform
   //debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  var prefs = await SharedPreferences.getInstance();
-  Brightness brightness = (prefs.getBool('darkModeOn') ?? false) ? Brightness.dark : Brightness.light;
+  globalPrefs = await SharedPreferences.getInstance();
+
+  // analytics is enabled by default
+  var analyticsOn = globalPrefs.getBool('analyticsOn') ?? true;
+  globalAnalytics.setAnalyticsCollectionEnabled(analyticsOn);
+
+  // setup crashlytics
+  Crashlytics.instance.enableInDevMode = false;
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
+  // setup brightness
+  var brightness = (globalPrefs.getBool('darkModeOn') ?? false) ? Brightness.dark : Brightness.light;
   runApp(MyApp(brightness: brightness));
 }
 
@@ -52,7 +66,10 @@ class MyAppState extends State<MyApp>{
             });
           },
         ),
-      }
+      },
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: globalAnalytics),
+      ],
     );
   }
 }
