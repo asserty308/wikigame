@@ -14,7 +14,7 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen> {
   SettingsScreenState({this.onThemeChanged});
 
-  bool darkModeOn;
+  bool darkModeOn = false;
   String version = 'Version: ';
   SharedPreferences prefs;
 
