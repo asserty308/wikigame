@@ -6,7 +6,7 @@ class SettingsScreen extends StatefulWidget {
   SettingsScreen({this.onThemeChanged});
 
   /// Triggered when the user changes the state of the 'dark-mode' switch
-  ValueChanged<bool> onThemeChanged;
+  final ValueChanged<bool> onThemeChanged;
 
   @override
   State<StatefulWidget> createState() => SettingsScreenState(onThemeChanged: onThemeChanged);

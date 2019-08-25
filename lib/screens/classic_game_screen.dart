@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_api.dart';
 import 'package:wikigame/api/wiki_article.dart';
 import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/articles/widgets/article_tile.dart';
+import 'package:wikigame/widgets/article_tile.dart';
 import 'package:wikigame/widgets/game_handler.dart';
-import 'package:wikigame/widgets/gamemodes/widgets/start_game_widget.dart';
+import 'package:wikigame/widgets/start_game_widget.dart';
 import 'package:wikigame/widgets/success_widget.dart';
 
-class ClassicGameWidget extends StatefulWidget {
+class ClassicGameScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => ClassicGameWidgetState();
+  State<StatefulWidget> createState() => ClassicGameScreenState();
 }
 
-class ClassicGameWidgetState extends State<ClassicGameWidget> {
+class ClassicGameScreenState extends State<ClassicGameScreen> {
   bool articlesFetched = false;
 
   List<Widget> linkWidgets = <Widget>[];

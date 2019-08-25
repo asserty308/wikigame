@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/style/text_styles.dart';
 
-class SelectGameModeWidget extends StatelessWidget {
+class SelectGameModeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

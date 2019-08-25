@@ -1,18 +1,17 @@
 //import 'package:flutter/foundation.dart'
     //show debugDefaultTargetPlatformOverride;
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wikigame/screens/article_details_screen.dart';
+import 'package:wikigame/screens/classic_game_screen.dart';
+import 'package:wikigame/screens/search/search_article_screen.dart';
+import 'package:wikigame/screens/select_game_mode_screen.dart';
+import 'package:wikigame/screens/settings_screen.dart';
 import 'package:wikigame/tools/globals.dart';
-import 'package:wikigame/widgets/articles/screens/article_details_screen.dart';
-import 'package:wikigame/widgets/gamemodes/classic/classic_game_widget.dart';
-import 'package:wikigame/widgets/gamemodes/five_to_jesus_widget.dart';
-import 'package:wikigame/widgets/gamemodes/time_trial_widget.dart';
-import 'package:wikigame/widgets/search/search_article_screen.dart';
-import 'package:wikigame/widgets/select_game_mode.dart';
-import 'package:wikigame/widgets/settings/settings_screen.dart';
+import 'package:wikigame/widgets/five_to_jesus_widget.dart';
+import 'package:wikigame/widgets/time_trial_widget.dart';
 
 void main() async {
   // platform override necessary for flutter to recognize windows as a platform
@@ -53,8 +52,8 @@ class MyAppState extends State<MyApp>{
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => SelectGameModeWidget(),
-        '/classic': (context) => ClassicGameWidget(),
+        '/': (context) => SelectGameModeScreen(),
+        '/classic': (context) => ClassicGameScreen(),
         '/five_to_jesus': (context) => FiveToJesusWidget(),
         '/time_trial': (context) => TimeTrialWidget(),
         '/article_details': (context) => ArticleScreen(),

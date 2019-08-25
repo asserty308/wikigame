@@ -1,10 +1,10 @@
-import 'package:wikigame/widgets/gamemodes/time_trial_widget.dart';
+import 'package:wikigame/screens/classic_game_screen.dart';
+import 'package:wikigame/screens/select_game_mode_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/widgets/gamemodes/classic/classic_game_widget.dart';
-import 'package:wikigame/widgets/gamemodes/five_to_jesus_widget.dart';
-import 'package:wikigame/widgets/select_game_mode.dart';
+import 'package:wikigame/widgets/five_to_jesus_widget.dart';
 import 'package:wikigame/widgets/start_new_game.dart';
+import 'package:wikigame/widgets/time_trial_widget.dart';
 
 enum GameState {
   menu,
@@ -74,12 +74,12 @@ class GameHandlerWidgetState extends State<GameHandlerWidget> {
 
   Widget getCurrentWidget() {
     switch (gameState) {
-      case GameState.menu: return SelectGameModeWidget();
+      case GameState.menu: return SelectGameModeScreen();
       case GameState.stopped: return StartNewGameWidget(this);
       case GameState.started:
         {
           if (gameMode == GameMode.classic) {
-            return ClassicGameWidget();
+            return ClassicGameScreen();
           } else if (gameMode == GameMode.fiveToJesus) {
             return FiveToJesusWidget(
               startArticle: startArticle,
