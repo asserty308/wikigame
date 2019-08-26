@@ -39,9 +39,27 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() => MyAppState(brightness: brightness);
 }
 
-class MyAppState extends State<MyApp>{
+class MyAppState extends State<MyApp> {
   MyAppState({this.brightness});
   Brightness brightness;
+
+  @override
+  void initState() {
+    super.initState();
+
+    globalMessaging.requestNotificationPermissions();
+    globalMessaging.configure(
+      onLaunch: (message) {
+        handleNotification(message);
+      },
+      onResume: (message) {
+        handleNotification(message);
+      },
+      onMessage: (message) {
+        handleNotification(message);
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +67,9 @@ class MyAppState extends State<MyApp>{
       title: 'Wikigame',
       theme: ThemeData(
         brightness: brightness,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark, // always dark when system is dark
       ),
       initialRoute: '/',
       routes: {
@@ -70,5 +91,14 @@ class MyAppState extends State<MyApp>{
         FirebaseAnalyticsObserver(analytics: globalAnalytics),
       ],
     );
+  }
+
+  void handleNotification(Map<dynamic, dynamic> message) {
+    print('received message $message');
+
+    var data = message['data'];
+    if (data != null) {
+      print('message containes data $data');
+    }
   }
 }

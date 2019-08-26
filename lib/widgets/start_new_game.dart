@@ -71,7 +71,6 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
             child: RaisedButton(
               onPressed: startNewGame,
               child: ListText(text: 'Spiel starten'),
-              color: Colors.red,
             ),
           ),
           FlatButton(
@@ -109,7 +108,6 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
             child: RaisedButton(
               onPressed: startNewGame,
               child: ListText(text: 'Spiel starten'),
-              color: Colors.red,
             ),
           ),
           FlatButton(
@@ -147,7 +145,6 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
             child: RaisedButton(
               onPressed: startNewGame,
               child: ListText(text: 'Spiel starten'),
-              color: Colors.red,
             ),
           ),
           FlatButton(
