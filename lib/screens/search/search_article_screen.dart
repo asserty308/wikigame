@@ -24,10 +24,7 @@ class SearchArticleScreenState extends State<SearchArticleScreen> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () { 
-              showSearch(
-                context: context,
-                delegate: ArticleSearchDelegate(),
-              );
+              displaySearch();
             }
           )
         ],
@@ -37,6 +34,10 @@ class SearchArticleScreenState extends State<SearchArticleScreen> {
 
   void afterFirstlayout(BuildContext context) {
     // show search when showing screen
+    displaySearch();
+  }
+
+  void displaySearch() {
     showSearch(
       context: context,
       delegate: ArticleSearchDelegate(),

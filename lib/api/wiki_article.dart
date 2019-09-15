@@ -26,31 +26,31 @@ class WikiArticle {
   }
 
   /// Generates an WikiArticle object by parsing json
-/// The given json must contain the keys 'id' and 'title'
-static Future<WikiArticle> createFromJSON(Map<String, dynamic> json, {String idKey = 'id'}) async {
-  final int id = json[idKey];
-  final String title = json['title'];
-  final summary = await WikiAPI.fetchArticleSummary(id);
+  /// The given json must contain the keys 'id' and 'title'
+  static Future<WikiArticle> createFromJSON(Map<String, dynamic> json, {String idKey = 'id'}) async {
+    final int id = json[idKey];
+    final String title = json['title'];
+    final summary = await WikiAPI.fetchArticleSummary(id);
 
-  return WikiArticle(
-      id: id,
-      title: title,
-      summary: summary,
-      links: null
-  );
-}
+    return WikiArticle(
+        id: id,
+        title: title,
+        summary: summary,
+        links: null
+    );
+  }
 
-/// Generates an WikiArticle object by parsing json
-/// The given json must contain the keys 'id' and 'title'
-static Future<WikiArticle> createFromTitle(String title) async {
-  final id = await WikiAPI.fetchIDFromTitle(title);
-  final summary = await WikiAPI.fetchArticleSummary(id);
+  /// Generates an WikiArticle object by parsing json
+  /// The given json must contain the keys 'id' and 'title'
+  static Future<WikiArticle> createFromTitle(String title) async {
+    final id = await WikiAPI.fetchIDFromTitle(title);
+    final summary = await WikiAPI.fetchArticleSummary(id);
 
-  return WikiArticle(
-      id: id,
-      title: title,
-      summary: summary,
-      links: null
-  );
-}
+    return WikiArticle(
+        id: id,
+        title: title,
+        summary: summary,
+        links: null
+    );
+  }
 }

@@ -3,6 +3,7 @@
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wikigame/screens/article_details_screen.dart';
 import 'package:wikigame/screens/classic_game_screen.dart';
@@ -47,18 +48,7 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    globalMessaging.requestNotificationPermissions();
-    globalMessaging.configure(
-      onLaunch: (message) {
-        handleNotification(message);
-      },
-      onResume: (message) {
-        handleNotification(message);
-      },
-      onMessage: (message) {
-        handleNotification(message);
-      }
-    );
+    initFCM();
   }
 
   @override
@@ -93,7 +83,22 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  void handleNotification(Map<dynamic, dynamic> message) {
+  void initFCM() {
+    globalMessaging.requestNotificationPermissions();
+    globalMessaging.configure(
+      onLaunch: (message) async {
+        handleNotification(message);
+      },
+      onResume: (message) async {
+        handleNotification(message);
+      },
+      onMessage: (message) async {
+        handleNotification(message);
+      }
+    );
+  }
+
+  void handleNotification(Map<dynamic, dynamic> message) async {
     print('received message $message');
 
     var data = message['data'];

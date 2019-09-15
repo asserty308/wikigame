@@ -143,14 +143,19 @@ class WikiAPI {
   }
 
   static Future<List<WikiArticle>> searchArticles(String searchTerm) async {
+    final articles = <WikiArticle>[];
+
     // perform a search for titles containing the searchTerm
     final url = '$wikiQueryUrl&list=search&srsearch=$searchTerm';
     final responseJSON = await getJSON(url);
+    final query = responseJSON['query'];
 
-    final articles = <WikiArticle>[];
+    if (query == null) {
+      return articles;
+    }
 
     // fetch both articles from response and convert them to WikiArticle
-    for (var articleJSON in responseJSON['query']['search']) {
+    for (var articleJSON in query['search']) {
       articles.add(await WikiArticle.createFromJSON(articleJSON, idKey: 'pageid'));
     }
 
