@@ -5,15 +5,15 @@ class YAImage {
   static Widget fromUrl([String imageUrl, BoxFit fit = BoxFit.cover]) {
     // svg images are loaded with flutter_svg because the default implementation doesn't support svg's yet
     if (imageUrl.endsWith('.svg')) {
-        return SvgPicture.network(
-          imageUrl,
-          fit: BoxFit.cover,
-        );
-      }
-
-      return Image.network(
+      return SvgPicture.network(
         imageUrl,
         fit: BoxFit.cover,
       );
+    }
+
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.cover,
+    );
   }
 }
