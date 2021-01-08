@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-import 'package:wikigame/tools/globals.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({this.onThemeChanged});
@@ -70,8 +70,9 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   void initPrefs() async {
-    darkModeOn = globalPrefs.getBool('darkModeOn') ?? false;
-    analyticsOn = globalPrefs.getBool('analyticsOn') ?? true;
+    final sharedPrefs = await SharedPreferences.getInstance();
+    darkModeOn = sharedPrefs.getBool('darkModeOn') ?? false;
+    analyticsOn = sharedPrefs.getBool('analyticsOn') ?? true;
 
     var packageInfo = await PackageInfo.fromPlatform();
     version = packageInfo.version;
@@ -83,16 +84,19 @@ class SettingsScreenState extends State<SettingsScreen> {
   void toggleDarkMode() {
     setState(() {
       darkModeOn = !darkModeOn; 
-      globalPrefs.setBool('darkModeOn', darkModeOn);
       onThemeChanged(darkModeOn);
+      saveDarkMode(darkModeOn);
     });
   }
 
   void toggleAnalytics() {
     setState(() {
       analyticsOn = !analyticsOn;
-      globalPrefs.setBool('analyticsOn', analyticsOn);
-      globalAnalytics.setAnalyticsCollectionEnabled(analyticsOn);
     });
+  }
+
+  Future<void> saveDarkMode(bool enabled) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    sharedPrefs.setBool('darkModeOn', enabled);
   }
 }
