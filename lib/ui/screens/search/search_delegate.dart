@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/api/wiki_api.dart';
-import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/style/text_styles.dart';
+import 'package:wikigame/data/datasources/wiki_api.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/ui/style/text_styles.dart';
 
 class ArticleSearchDelegate extends SearchDelegate {
   @override

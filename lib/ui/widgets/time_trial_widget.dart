@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:wikigame/widgets/fail_widget.dart';
+import 'package:wikigame/ui/widgets/fail_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:wikigame/api/wiki_api.dart';
-import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/article_tile.dart';
-import 'package:wikigame/widgets/game_handler.dart';
-import 'package:wikigame/widgets/success_widget.dart';
+import 'package:wikigame/data/datasources/wiki_api.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/ui/style/text_styles.dart';
+import 'package:wikigame/ui/widgets/article_tile.dart';
+import 'package:wikigame/ui/widgets/game_handler.dart';
+import 'package:wikigame/ui/widgets/success_widget.dart';
 
 class TimeTrialWidget extends StatefulWidget {
   const TimeTrialWidget({this.startArticle, this.goalArticle, this.gameHandler});

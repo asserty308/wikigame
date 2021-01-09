@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/screens/article_details_screen.dart';
-import 'package:wikigame/screens/search/search_article_screen.dart';
-import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/game_handler.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/ui/screens/article_details_screen.dart';
+import 'package:wikigame/ui/screens/search/search_article_screen.dart';
+import 'package:wikigame/ui/style/text_styles.dart';
+import 'package:wikigame/ui/widgets/game_handler.dart';
 
 enum ArticleType {
   start,

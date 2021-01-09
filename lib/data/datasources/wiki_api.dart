@@ -3,8 +3,8 @@ import 'dart:convert'; // json
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/tools/image_utils.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/utils/image_utils.dart';
 
 class WikiAPI {
   /// The base url to query the wikipedia api
@@ -88,7 +88,7 @@ class WikiAPI {
 
       // Image lib does not support SVG images yet
       print('Loading image url $imageUrl');
-      return YAImage.fromUrl(imageUrl);
+      return ImageHelper.fromUrl(imageUrl);
     }
 
     return null;

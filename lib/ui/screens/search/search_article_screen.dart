@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/screens/search/search_delegate.dart';
+import 'package:wikigame/ui/screens/search/search_delegate.dart';
 
 class SearchArticleScreen extends StatefulWidget {
   @override

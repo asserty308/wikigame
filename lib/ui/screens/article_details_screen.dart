@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wikigame/api/wiki_api.dart';
-import 'package:wikigame/api/wiki_article.dart';
+import 'package:wikigame/data/datasources/wiki_api.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
 
 class ArticleScreenArguments {
   final WikiArticle article;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/api/wiki_article.dart';
-import 'package:wikigame/style/text_styles.dart';
-import 'package:wikigame/widgets/article_tile.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/ui/style/text_styles.dart';
+
+import 'article_tile.dart';
 
 /// This widget is presented when the user didn't find jesus within 5 moves
 class FailWidget extends StatelessWidget {

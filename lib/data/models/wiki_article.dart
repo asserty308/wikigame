@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:wikigame/api/wiki_api.dart';
+import 'package:wikigame/data/datasources/wiki_api.dart';
 
 /// Representation of a Wikipedia article.
 class WikiArticle {
