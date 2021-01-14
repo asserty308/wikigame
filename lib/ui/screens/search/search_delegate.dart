@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/datasources/wiki_api.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wikigame/app/data/datasources/wiki_api.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 import 'package:wikigame/ui/style/text_styles.dart';
 
 class ArticleSearchDelegate extends SearchDelegate {
@@ -37,7 +38,7 @@ class ArticleSearchDelegate extends SearchDelegate {
   }
 
   Widget showSearchResults() {
-    var articles = WikiAPI.searchArticles(query);
+    var articles = GetIt.I<WikiAPI>().searchArticles(query);
 
     return FutureBuilder<List<WikiArticle>>(
       future: articles,

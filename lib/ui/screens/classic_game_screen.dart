@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/datasources/wiki_api.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wikigame/app/data/datasources/wiki_api.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 import 'package:wikigame/ui/style/text_styles.dart';
 import 'package:wikigame/ui/widgets/article_tile.dart';
 import 'package:wikigame/ui/widgets/game_handler.dart';
@@ -127,7 +128,7 @@ class ClassicGameScreenState extends State<ClassicGameScreen> {
     });
 
     // load random articles
-    var articles = await WikiAPI.getRandomArticles(2); // getRandomArticlesWithImage(2) is slow
+    var articles = await GetIt.I<WikiAPI>().getRandomArticles(2); // getRandomArticlesWithImage(2) is slow
     globalStartArticle = articles[0];
     globalGoalArticle = articles[1];
 
@@ -142,7 +143,7 @@ class ClassicGameScreenState extends State<ClassicGameScreen> {
   /// about the current goal.
   void fetchLinks() async {
     var mightContainGoal = <String>[];
-    var links = await WikiAPI.fetchArticleLinksByTitle(clickedLinks.last.title);
+    var links = await GetIt.I<WikiAPI>().fetchArticleLinksByTitle(clickedLinks.last.title);
 
     // filter out links starting with the first letter of the "goal article" and add them to the mightContainGoal list
     links.removeWhere((i) {

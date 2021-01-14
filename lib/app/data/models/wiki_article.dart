@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:wikigame/data/datasources/wiki_api.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wikigame/app/data/datasources/wiki_api.dart';
 
 /// Representation of a Wikipedia article.
 class WikiArticle {
@@ -30,7 +31,7 @@ class WikiArticle {
   static Future<WikiArticle> createFromJSON(Map<String, dynamic> json, {String idKey = 'id'}) async {
     final int id = json[idKey];
     final String title = json['title'];
-    final summary = await WikiAPI.fetchArticleSummary(id);
+    final summary = await GetIt.I<WikiAPI>().fetchArticleSummary(id);
 
     return WikiArticle(
         id: id,
@@ -43,8 +44,8 @@ class WikiArticle {
   /// Generates an WikiArticle object by parsing json
   /// The given json must contain the keys 'id' and 'title'
   static Future<WikiArticle> createFromTitle(String title) async {
-    final id = await WikiAPI.fetchIDFromTitle(title);
-    final summary = await WikiAPI.fetchArticleSummary(id);
+    final id = await GetIt.I<WikiAPI>().fetchIDFromTitle(title);
+    final summary = await GetIt.I<WikiAPI>().fetchArticleSummary(id);
 
     return WikiArticle(
         id: id,

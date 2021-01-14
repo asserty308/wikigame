@@ -1,7 +1,7 @@
 import 'package:wikigame/ui/screens/classic_game_screen.dart';
 import 'package:wikigame/ui/screens/select_game_mode_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 import 'package:wikigame/ui/widgets/five_to_jesus_widget.dart';
 import 'package:wikigame/ui/widgets/start_new_game.dart';
 import 'package:wikigame/ui/widgets/time_trial_widget.dart';

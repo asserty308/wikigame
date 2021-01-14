@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 import 'package:wikigame/ui/style/text_styles.dart';
 
 import 'article_tile.dart';

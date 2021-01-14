@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/datasources/wiki_api.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wikigame/app/data/datasources/wiki_api.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 
 class ArticleScreenArguments {
   final WikiArticle article;
@@ -67,7 +68,7 @@ class ArticleScreenState extends State<ArticleScreen> {
   }
 
   void fetchBackground() async {
-    sliverBackground = await WikiAPI.fetchArticleImage(args.article.id);
+    sliverBackground = await GetIt.I<WikiAPI>().fetchArticleImage(args.article.id);
     setState(() { 
     });
   }

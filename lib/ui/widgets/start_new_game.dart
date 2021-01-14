@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/datasources/wiki_api.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wikigame/app/data/datasources/wiki_api.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 import 'package:wikigame/ui/style/text_styles.dart';
 import 'package:wikigame/ui/widgets/article_tile.dart';
 import 'package:wikigame/ui/widgets/game_handler.dart';
@@ -168,9 +169,9 @@ class StartNewGameWidgetState extends State<StartNewGameWidget> {
 
   void fetchArticles() async {
     if (gameHandler.gameMode == GameMode.classic || gameHandler.gameMode == GameMode.twoMinTimeTrial) {
-      articles = await WikiAPI.getRandomArticles(2);
+      articles = await GetIt.I<WikiAPI>().getRandomArticles(2);
     } else if (gameHandler.gameMode == GameMode.fiveToJesus) {
-      final rand = await WikiAPI.getRandomArticles(1);
+      final rand = await GetIt.I<WikiAPI>().getRandomArticles(1);
       final jesus = await WikiArticle.createFromTitle('Jesus Christus');
       articles
         ..add(rand[0])

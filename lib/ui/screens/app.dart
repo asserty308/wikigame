@@ -16,44 +16,36 @@ class WikigameApp extends StatefulWidget {
 }
 
 class WikigameAppState extends State<WikigameApp> {
-  WikigameAppState({this.brightness});
+  WikigameAppState({
+    this.brightness
+  });
+
   Brightness brightness;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Wikigame',
-      theme: ThemeData(
-        brightness: brightness,
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'Wikigame',
+    theme: ThemeData(
+      brightness: brightness,
+    ),
+    darkTheme: ThemeData(
+      brightness: Brightness.dark, // always dark when system is dark
+    ),
+    initialRoute: '/',
+    routes: {
+      '/': (context) => SelectGameModeScreen(),
+      '/classic': (context) => ClassicGameScreen(),
+      '/five_to_jesus': (context) => FiveToJesusWidget(),
+      '/time_trial': (context) => TimeTrialWidget(),
+      '/article_details': (context) => ArticleScreen(),
+      '/search': (context) => SearchArticleScreen(),
+      '/settings': (context) => SettingsScreen(
+        onThemeChanged: (isDark) { 
+          setState(() {
+            brightness = isDark ? Brightness.dark : Brightness.light;
+          });
+        },
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark, // always dark when system is dark
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => SelectGameModeScreen(),
-        '/classic': (context) => ClassicGameScreen(),
-        '/five_to_jesus': (context) => FiveToJesusWidget(),
-        '/time_trial': (context) => TimeTrialWidget(),
-        '/article_details': (context) => ArticleScreen(),
-        '/search': (context) => SearchArticleScreen(),
-        '/settings': (context) => SettingsScreen(
-          onThemeChanged: (isDark) { 
-            setState(() {
-              brightness = isDark ? Brightness.dark : Brightness.light;
-            });
-          },
-        ),
-      },
-    );
-  }
-
-  void handleNotification(Map<dynamic, dynamic> message) async {
-    print('received message $message');
-
-    var data = message['data'];
-    if (data != null) {
-      print('message containes data $data');
-    }
-  }
+    },
+  );
 }

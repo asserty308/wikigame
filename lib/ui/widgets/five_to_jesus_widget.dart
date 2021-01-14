@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/datasources/wiki_api.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wikigame/app/data/datasources/wiki_api.dart';
+import 'package:wikigame/app/data/models/wiki_article.dart';
 import 'package:wikigame/ui/style/text_styles.dart';
 import 'package:wikigame/ui/widgets/article_tile.dart';
 import 'package:wikigame/ui/widgets/game_handler.dart';
@@ -67,7 +68,7 @@ class FiveToJesusWidgetState extends State<FiveToJesusWidget> {
   /// generates a list of these links as well as a 'header' with information
   /// about the current goal.
   void fetchLinks() async {
-    final links = await WikiAPI.fetchArticleLinksByTitle(clickedLinks.last.title);
+    final links = await GetIt.I<WikiAPI>().fetchArticleLinksByTitle(clickedLinks.last.title);
     final jesus = await WikiArticle.createFromTitle('Jesus Christus');
 
     // first row of the list should be the header
