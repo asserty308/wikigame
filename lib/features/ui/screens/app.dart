@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/ui/screens/article_details_screen.dart';
-import 'package:wikigame/ui/screens/classic_game_screen.dart';
-import 'package:wikigame/ui/screens/search/search_article_screen.dart';
-import 'package:wikigame/ui/screens/select_game_mode_screen.dart';
-import 'package:wikigame/ui/screens/settings_screen.dart';
-import 'package:wikigame/ui/widgets/five_to_jesus_widget.dart';
-import 'package:wikigame/ui/widgets/time_trial_widget.dart';
+import 'package:wikigame/features/ui/screens/article_details_screen.dart';
+import 'package:wikigame/features/ui/screens/classic_game_screen.dart';
+import 'package:wikigame/features/ui/screens/search/search_article_screen.dart';
+import 'package:wikigame/features/ui/screens/select_game_mode_screen.dart';
+import 'package:wikigame/features/ui/screens/settings_screen.dart';
+import 'package:wikigame/features/ui/widgets/five_to_jesus_widget.dart';
+import 'package:wikigame/features/ui/widgets/time_trial_widget.dart';
 
 class WikigameApp extends StatefulWidget {
   WikigameApp({this.brightness});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/ui/style/text_styles.dart';
-import 'package:wikigame/ui/widgets/article_tile.dart';
-import 'package:wikigame/ui/widgets/game_handler.dart';
+import 'package:wikigame/features/ui/style/text_styles.dart';
+import 'package:wikigame/features/ui/widgets/article_tile.dart';
+import 'package:wikigame/features/ui/widgets/game_handler.dart';
 
 class StartGameWidget extends StatelessWidget {
   StartGameWidget({this.onStart, this.onFetch});

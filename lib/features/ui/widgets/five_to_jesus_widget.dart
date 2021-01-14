@@ -1,35 +1,33 @@
-import 'dart:async';
-
-import 'package:get_it/get_it.dart';
-import 'package:wikigame/ui/widgets/fail_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:wikigame/app/data/datasources/wiki_api.dart';
 import 'package:wikigame/app/data/models/wiki_article.dart';
-import 'package:wikigame/ui/style/text_styles.dart';
-import 'package:wikigame/ui/widgets/article_tile.dart';
-import 'package:wikigame/ui/widgets/game_handler.dart';
-import 'package:wikigame/ui/widgets/success_widget.dart';
+import 'package:wikigame/features/ui/style/text_styles.dart';
+import 'package:wikigame/features/ui/widgets/article_tile.dart';
+import 'package:wikigame/features/ui/widgets/game_handler.dart';
+import 'package:wikigame/features/ui/widgets/success_widget.dart';
+import 'package:wikigame/features/ui/widgets/fail_widget.dart';
 
-class TimeTrialWidget extends StatefulWidget {
-  const TimeTrialWidget({this.startArticle, this.goalArticle, this.gameHandler});
+class FiveToJesusWidget extends StatefulWidget {
+  const FiveToJesusWidget({this.startArticle, this.gameHandler});
 
-  final WikiArticle startArticle, goalArticle;
+  final WikiArticle startArticle;
   final GameHandlerWidgetState gameHandler;
 
   @override
-  State<StatefulWidget> createState() => TimeTrialWidgetState(startArticle: startArticle, goalArticle: goalArticle, gameHandler: gameHandler);
+  State<StatefulWidget> createState() => FiveToJesusWidgetState(startArticle: startArticle, gameHandler: gameHandler);
 }
 
-class TimeTrialWidgetState extends State<TimeTrialWidget> {
-  TimeTrialWidgetState({this.startArticle, this.goalArticle, this.gameHandler});
+class FiveToJesusWidgetState extends State<FiveToJesusWidget> {
+  FiveToJesusWidgetState({this.startArticle, this.gameHandler});
 
-  final WikiArticle startArticle, goalArticle;
+  final WikiArticle startArticle;
   final GameHandlerWidgetState gameHandler;
 
   List<Widget> linkWidgets = <Widget>[];
   List<WikiArticle> clickedLinks = <WikiArticle>[];
   bool goalReached = false;
-  bool timeElapsed = false;
+  bool tooManyMoves = false;
 
   @override
   void initState() {
@@ -48,22 +46,21 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
         elevation: 0.0,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: gameHandler.stopGame),),
       body:
-        timeElapsed ? FailWidget(clickedLinks: clickedLinks) :
-        // check whether the goal has been reached. show congrats text when true
-        goalReached ? SuccessWidget(clickedLinks: clickedLinks) :
-        // goal not reached
-        linkWidgets.isEmpty ?
-        // show progress indicator until data has been fetched
-        Center(child: CircularProgressIndicator()) :
-        // show fetched data
-        // ListView.builder constructor will create items as they are scrolled onto the screen
-        // This is more efficient then the default ListView constructor
-        ListView.builder(
+      // check whether the user needed too many moves
+      tooManyMoves ? FailWidget(clickedLinks: clickedLinks,) :
+      // check whether the goal has been reached. show congrats text when true
+      goalReached ? SuccessWidget(clickedLinks: clickedLinks) :
+      // goal not reached
+      linkWidgets.isEmpty ? Center(child: CircularProgressIndicator()) :
+      // show fetched data
+      // ListView.builder constructor will create items as they are scrolled onto the screen
+      // This is more efficient then the default ListView constructor
+      ListView.builder(
           itemCount: linkWidgets.length,
           itemBuilder: (context, index) {
             return linkWidgets[index];
           }
-        ),
+      ),
     );
   }
 
@@ -72,12 +69,13 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
   /// about the current goal.
   void fetchLinks() async {
     final links = await GetIt.I<WikiAPI>().fetchArticleLinksByTitle(clickedLinks.last.title);
+    final jesus = await WikiArticle.createFromTitle('Jesus Christus');
 
     // first row of the list should be the header
     final header = Column(
       children: <Widget>[
         HeaderText(text: 'Ziel'),
-        ArticleTile(article: goalArticle,),
+        ArticleTile(article: jesus),
         HeaderText(text: 'Mögliche Links'),
       ],
     );
@@ -87,14 +85,13 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
     // create Text widgets to show the links in the listview
     for (var l in links) {
       linkWidgets.add(
-        ListTile(
-          title: ListText(text: l),
-          onTap: () => linkTapped(l),
-        )
+          ListTile(
+            title: ListText(text: l),
+            onTap: () => linkTapped(l),
+          )
       );
     }
 
-    startTimeout();
     setState((){});
   }
 
@@ -103,11 +100,14 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
   /// refreshes the site with the new article.
   void linkTapped(String title) async {
     final tappedArticle = await WikiArticle.createFromTitle(title);
+    final jesus = await WikiArticle.createFromTitle('Jesus Christus');
+
     clickedLinks.add(tappedArticle);
     linkWidgets.clear();
 
-    // check whether the user reached the goal
-    if (goalArticle.id == tappedArticle.id) {
+    if (clickedLinks.length >= 6) {
+      tooManyMoves = true;
+    } else if (jesus.id == tappedArticle.id) {
       goalReached = true;
     }
 
@@ -118,12 +118,4 @@ class TimeTrialWidgetState extends State<TimeTrialWidget> {
     });
   }
 
-  startTimeout() {
-    return Timer(Duration(seconds: 120), handleTimeout);
-  }
-
-  handleTimeout() {
-    this.timeElapsed = true;
-    setState(() {});
-  }
 }

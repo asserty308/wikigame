@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wikigame/app/data/datasources/wiki_api.dart';
 import 'package:wikigame/app/data/models/wiki_article.dart';
-import 'package:wikigame/ui/style/text_styles.dart';
-import 'package:wikigame/ui/widgets/article_tile.dart';
-import 'package:wikigame/ui/widgets/game_handler.dart';
+import 'package:wikigame/features/ui/style/text_styles.dart';
+import 'package:wikigame/features/ui/widgets/article_tile.dart';
+import 'package:wikigame/features/ui/widgets/game_handler.dart';
 
 class StartNewGameWidget extends StatefulWidget {
   const StartNewGameWidget(this.gameHandler) : super();

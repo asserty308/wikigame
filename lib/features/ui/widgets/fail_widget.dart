@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/app/data/models/wiki_article.dart';
-import 'package:wikigame/ui/style/text_styles.dart';
+import 'package:wikigame/features/ui/style/text_styles.dart';
 
 import 'article_tile.dart';
 

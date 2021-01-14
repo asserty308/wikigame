@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:wikigame/app/data/models/wiki_article.dart';
-import 'package:wikigame/utils/image_utils.dart';
+import 'package:wikigame/app/utils/image_utils.dart';
 
 class WikiAPI {
   /// The base url to query the wikipedia api
