@@ -1,24 +1,27 @@
 name: wikigame
-description: The Wikipedia game
-version: 0.1.0+1
+description: A new Flutter project.
+publish_to: 'none' 
+version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.18.4 <3.0.0"
 
 dependencies:
+  cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^1.0.0
-  http: ^0.12.2
-  flutter_svg: ^0.19.2+1
-  package_info: ^0.4.3+2
-  shared_preferences: ^0.5.12+4
-  get_it: ^5.0.4
+  flutter_bloc: ^8.1.1
+  flutter_svg: ^1.1.6
+  get_it: ^7.2.0
+  go_router: ^5.1.5
+  http: ^0.13.5
+  package_info_plus: ^3.0.1
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-
+    
 flutter:
   uses-material-design: true

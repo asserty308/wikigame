@@ -1,15 +1,16 @@
-# WikiGame
+# wikigame
 
-This app implements the Wikipedia game as explained [here](https://en.wikipedia.org/wiki/Wikipedia:Wiki_Game "Wiki Game").
-It is build with flutter and will be enhanced with more features in the future.
+A new Flutter project.
 
-## Features
-1. The game modes 'classic', '5-clicks-to-Jesus' and 'time trial' are available with random articles
+## Getting Started
 
-## ToDo's
-1. Custom game: User should be able to select two words to start the game with.
-2. Ingame searchbar: The list of links can be very long. It should be possible to search for specific phrases.
-3. History of games finished
-4. Nicer UI
-5. Localizations
-6. Multiplayer
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
