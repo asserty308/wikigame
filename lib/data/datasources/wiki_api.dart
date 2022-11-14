@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:wikigame/domain/models/wiki_article.dart';
+import 'package:wikigame/data/models/wiki_article.dart';
 import 'package:wikigame/domain/services/image.dart';
 
 class WikiApi {
@@ -28,9 +28,11 @@ class WikiApi {
     });
 
     final response = await _getJSON(uri);
-    final randomArticles = response['query']['random'] as List<Map<String, dynamic>>;
+    final randomArticles = response['query']['random'] as List;
 
-    return randomArticles.map(WikiArticle.fromJSON).toList();
+    return randomArticles
+      .map((item) => WikiArticle.fromJSON(item as Map<String, dynamic>))
+      .toList();
   }
 
   /// Fetches the id of the article by a given title
@@ -43,7 +45,7 @@ class WikiApi {
     });
 
     final response = await _getJSON(uri);
-    return response['query']['pages'][0]['pageid'];
+    return response['query']['pages'][0]['pageid'] as int;
   }
 
   /// Fetches the summary for the article with the given id
@@ -121,7 +123,7 @@ class WikiApi {
       final pageLinks = pageObj['links'];
 
       // fetch all links from response and add them to the link list
-      for (var linkObj in pageLinks) {
+      for (final linkObj in pageLinks) {
         if (linkObj['ns'] != 0) {
           // link is not an article
           continue;
@@ -171,6 +173,7 @@ class WikiApi {
       'list': 'search',
       'srsearch': searchTerm,
     });
+    
     final response = await _getJSON(uri);
     final query = response['query'];
 
