@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:wikigame/data/models/wiki_article.dart';
-import 'package:wikigame/domain/services/image.dart';
 
 class WikiApi {
   /// The base url to query the wikipedia api
   final _baseUrl = 'de.wikipedia.org';
 
-  /// Wrapper to fetch JSON from the API
-  Future<Map<String, dynamic>> _getJSON(Uri url) async {
+  Uri _buildUrl([Map<String, dynamic>? query]) => Uri.https(_baseUrl, 'w/api.php', query);
+
+  /// Performs a GET request on [url] and decodes the result to a json object.
+  Future<Map<String, dynamic>> _getJson(Uri url) async {
     final response = await http.get(url);
     return json.decode(response.body);
   }
@@ -19,7 +18,7 @@ class WikiApi {
   /// Calls the Wikipedia API for random articles.
   /// Returns the given amount of articles.
   Future<List<WikiArticle>> getRandomArticles(int amount) async {
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+    final url = _buildUrl({
       'action': 'query',
       'format': 'json',
       'list': 'random',
@@ -27,7 +26,7 @@ class WikiApi {
       'rnnamespace': 0,
     });
 
-    final response = await _getJSON(uri);
+    final response = await _getJson(url);
     final randomArticles = response['query']['random'] as List;
 
     return randomArticles
@@ -36,25 +35,25 @@ class WikiApi {
   }
 
   /// Fetches the id of the article by a given title
-  Future<int> fetchIDFromTitle(String title) async {
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+  Future<int> getIdFromTitle(String title) async {
+    final url = _buildUrl({
       'action': 'query',
       'format': 'json',
       'titles': title,
       'formatversion': 2,
     });
 
-    final response = await _getJSON(uri);
+    final response = await _getJson(url);
     return response['query']['pages'][0]['pageid'] as int;
   }
 
   /// Fetches the summary for the article with the given id
-  Future<String> fetchArticleSummary(int id) async {
+  Future<String> getArticleSummary(int id) async {
     // The url to fetch the summary.
     // formatversion=2 makes sure, that the response pages are returned as json array.
     // This is needed because the id of an article could not be valid anymore because of
     // a redirect. (example on german wiki: Filmindustrie (1566124) became Filmwirtschaft (202198))
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+    final uri = _buildUrl({
       'action': 'query',
       'format': 'json',
       'prop': 'extracts&exintro&explaintext',
@@ -63,20 +62,17 @@ class WikiApi {
       'formatversion': 2,
     });
 
-    final response = await _getJSON(uri);
+    final response = await _getJson(uri);
 
     // get page object
-    final pageObj = response['query']['pages'][0];
+    final pages = response['query']['pages'] as List;
+    final page = WikiArticle.fromJSON(pages.first as Map<String, dynamic>, idKey: 'pageid');
 
-    if (pageObj.containsKey('extract')) {
-      return pageObj['extract'];
-    }
-
-    return 'Zusammenfassung nicht verfügbar.';
+    return page.extract ?? 'Summary not available.';
   }
 
-  Future<Widget?> fetchArticleImage(int id) async {
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+  Future<String?> getArticleImageUrl(int id) async {
+    final uri = _buildUrl({
       'action': 'query',
       'format': 'json',
       'prop': 'pageimages',
@@ -86,25 +82,16 @@ class WikiApi {
       'formatversion': 2,
     });
 
-    final response = await _getJSON(uri);
+    final response = await _getJson(uri);
 
     final pageObj = response['query']['pages'][0];
-
-    if (pageObj.containsKey('original')) {
-      var imageUrl = pageObj['original']['source'];
-
-      // Image lib does not support SVG images yet
-      log('Loading image url $imageUrl');
-      return getNetworkImage(imageUrl);
-    }
-
-    return null;
+    return pageObj['original']['source'] as String?;
   }
 
   /// Fetches all links in the article which lead to other wikipedia articles.
   /// The links are returned as a list of the titles of the article.
-  Future<List<String>> fetchArticleLinksByTitle(String title) async {
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+  Future<List<String>> getArticleLinksByTitle(String title) async {
+    final uri = _buildUrl({
       'action': 'query',
       'format': 'json',
       'prop': 'links',
@@ -113,7 +100,7 @@ class WikiApi {
       'formatversion': 2,
     });
 
-    var response = await _getJSON(uri);
+    var response = await _getJson(uri);
 
     final links = <String>[];
 
@@ -143,15 +130,15 @@ class WikiApi {
       // start new request
       final contParam = response['continue']['plcontinue'];
       uri.queryParameters.addAll({'plcontinue': contParam});
-      response = await _getJSON(uri);
+      response = await _getJson(uri);
     }
 
     return links;
   }
 
   /// Fetches an article by a given category
-  Future<List<String>> fetchArticlesWithCategory(String category) async {
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+  Future<List<String>> getArticlesWithCategory(String category) async {
+    final uri = _buildUrl({
       'action': 'query',
       'format': 'json',
       'cmnamespace': 0,
@@ -159,33 +146,24 @@ class WikiApi {
       'cmtitle': 'Category:$category',
     });
 
-    final response = await _getJSON(uri);
-    return response['query']['pages'][0]['pageid'];
+    final response = await _getJson(uri);
+    return response['query']['pages'][0]['pageid'] as List<String>;
   }
 
+  /// Perform a search for titles containing the searchTerm
   Future<List<WikiArticle>> searchArticles(String searchTerm) async {
-    final articles = <WikiArticle>[];
-
-    // perform a search for titles containing the searchTerm
-    final uri = Uri.https(_baseUrl, 'w/api.php', {
+    final uri = _buildUrl({
       'action': 'query',
       'format': 'json',
       'list': 'search',
       'srsearch': searchTerm,
     });
     
-    final response = await _getJSON(uri);
-    final query = response['query'];
+    final response = await _getJson(uri);
+    final results = response['query']['search'] as List;
 
-    if (query == null) {
-      return articles;
-    }
-
-    // fetch both articles from response and convert them to WikiArticle
-    for (var articleJSON in query['search']) {
-      articles.add(WikiArticle.fromJSON(articleJSON, idKey: 'pageid'));
-    }
-
-    return articles;
+    return results
+      .map((e) => WikiArticle.fromJSON(e as Map<String, dynamic>, idKey: 'pageid'))
+      .toList();
   }
 }

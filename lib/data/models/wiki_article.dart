@@ -3,6 +3,7 @@ class WikiArticle {
   WikiArticle({
     required this.id,
     required this.title,
+    this.extract,
   });
 
   /// Generates an WikiArticle object by parsing json
@@ -10,13 +11,14 @@ class WikiArticle {
   factory WikiArticle.fromJSON(Map<String, dynamic> json, {String idKey = 'id'}) => WikiArticle(
     id: json[idKey],
     title: json['title'],
+    extract: json['extract'] as String?,
   );
 
   final int id;
   final String title;
+  final String? extract;
 
   /// Returns the language specific url of the article
-  /// TODO: Add multiple language support
   String url([String langKey = 'de']) {
     if (title.isEmpty) {
       return '';
