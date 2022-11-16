@@ -33,6 +33,6 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   void _onSettingsPressed() {
-    
+    appRouter.push('/settings');
   }
 }

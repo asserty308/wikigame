@@ -8,8 +8,8 @@ class WikiArticle {
 
   /// Generates an WikiArticle object by parsing json
   /// The given json must contain the keys 'id' and 'title'
-  factory WikiArticle.fromJSON(Map<String, dynamic> json, {String idKey = 'id'}) => WikiArticle(
-    id: json[idKey],
+  factory WikiArticle.fromJson(Map<String, dynamic> json) => WikiArticle(
+    id: json['pageid'] ?? json['id'],
     title: json['title'],
     extract: json['extract'] as String?,
   );

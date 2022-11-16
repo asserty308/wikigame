@@ -25,8 +25,8 @@ class SelectGameModePage extends StatelessWidget {
         child: const Text('Time Trial',),
       ),
       TextButton(
-        onPressed: _onClickTippPressed, 
-        child: const Text('Click Tipp',),
+        onPressed: _onClickGuessPressed, 
+        child: const Text('Click Guess',),
       ),
       TextButton(
         onPressed: _onBackPressed, 
@@ -47,7 +47,7 @@ class SelectGameModePage extends StatelessWidget {
 
   }
 
-  void _onClickTippPressed() {
+  void _onClickGuessPressed() {
 
   }
 
