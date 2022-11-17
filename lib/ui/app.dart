@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wikigame/application/config/app_config.dart';
 import 'package:wikigame/application/config/app_localization.dart';
 import 'package:wikigame/application/router/app_router.dart';
 import 'package:wikigame/application/style/app_theme.dart';
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) => MaterialApp.router(
     routerConfig: appRouter,
     debugShowCheckedModeBanner: false,
-    title: 'Wiki Game',
+    title: appTitle,
     themeMode: appThemeMode.value,
     theme: lightTheme,
     darkTheme: darkTheme,
