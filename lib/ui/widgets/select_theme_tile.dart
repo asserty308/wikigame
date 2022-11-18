@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wikigame/application/config/app_localization.dart';
 import 'package:wikigame/application/style/app_theme.dart';
 
 class SelectThemeTile extends StatefulWidget {
@@ -13,7 +14,7 @@ class _SelectThemeTileState extends State<SelectThemeTile> {
 
   @override
   Widget build(BuildContext context) => ListTile(
-    title: const Text('App Theme'),
+    title: Text(getLocalizations(context).app_theme),
     trailing: _dropdownButton,
   );
 

@@ -1,3 +1,6 @@
 {
-    "language": "Sprache"
+    "language": "Sprache",
+    "app_theme": "App Aussehen",
+    "start_game": "Spiel starten",
+    "settings": "Einstellungen"
 }

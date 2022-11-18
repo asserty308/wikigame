@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wikigame/application/config/app_localization.dart';
 import 'package:wikigame/application/router/app_router.dart';
 
 class MenuPage extends StatefulWidget {
@@ -19,11 +20,11 @@ class _MenuPageState extends State<MenuPage> {
     children: [
       TextButton(
         onPressed: _onStartGamePressed, 
-        child: const Text('Start Game',),
+        child: Text(getLocalizations(context).start_game),
       ),
       TextButton(
         onPressed: _onSettingsPressed, 
-        child: const Text('Settings',),
+        child: Text(getLocalizations(context).settings),
       ),
     ],
   );

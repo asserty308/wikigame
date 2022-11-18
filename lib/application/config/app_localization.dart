@@ -15,3 +15,21 @@ const localizationsDelegates = [
   GlobalWidgetsLocalizations.delegate,
   GlobalCupertinoLocalizations.delegate,
 ];
+
+AppLocalizations getLocalizations(BuildContext context) => AppLocalizations.of(context)!;
+
+Locale localeResolutionCallback(Locale? deviceLocale, Iterable<Locale> supportedLocales) {
+    if (deviceLocale == null) {
+      return supportedLocales.first;
+    }
+    
+    // Check if the current device locale is supported
+    for (final supportedLocale in supportedLocales) {
+      if (supportedLocale.languageCode == deviceLocale.languageCode) {
+        return supportedLocale;
+      }
+    }
+
+    // If the locale of the device is not supported, use english
+    return supportedLocales.first;
+  }

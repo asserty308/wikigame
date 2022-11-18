@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wikigame/application/config/app_localization.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectLanguageTile extends StatefulWidget {
   const SelectLanguageTile({super.key});
@@ -12,7 +11,7 @@ class SelectLanguageTile extends StatefulWidget {
 class _SelectLanguageTileState extends State<SelectLanguageTile> {
   @override
   Widget build(BuildContext context) => ListTile(
-    title: Text(AppLocalizations.of(context)!.language),
+    title: Text(getLocalizations(context).language),
     trailing: _dropdownButton,
   );
 
