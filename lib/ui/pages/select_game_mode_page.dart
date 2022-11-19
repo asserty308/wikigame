@@ -36,19 +36,19 @@ class SelectGameModePage extends StatelessWidget {
   );
 
   void _onClassicModePressed() {
-
+    appRouter.push('/game/classic');
   }
 
   void _onFiveToJesusPressed() {
-
+    appRouter.push('/game/five_to_jesus');
   }
 
   void _onTimeTrialPressed() {
-
+    appRouter.push('/game/time_trial');
   }
 
   void _onClickGuessPressed() {
-
+    appRouter.push('/game/click_guess');
   }
 
   void _onBackPressed() {

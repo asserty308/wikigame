@@ -16,6 +16,8 @@ const localizationsDelegates = [
   GlobalCupertinoLocalizations.delegate,
 ];
 
+/// Add localizations to l10n/*.arb files and run
+/// flutter gen-l10n to add them to AppLocalizations
 AppLocalizations getLocalizations(BuildContext context) => AppLocalizations.of(context)!;
 
 Locale localeResolutionCallback(Locale? deviceLocale, Iterable<Locale> supportedLocales) {
