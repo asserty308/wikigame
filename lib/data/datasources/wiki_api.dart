@@ -9,7 +9,7 @@ class WikiApi {
   /// The base url to query the wikipedia api
   final _baseUrl = 'en.wikipedia.org';
 
-  Uri _buildUrl([Map<String, dynamic>? query]) => Uri.https(_baseUrl, 'w/api.php', query);
+  Uri _buildUrl([Map<String, String>? query]) => Uri.https(_baseUrl, 'w/api.php', query);
 
   /// Performs a GET request on [url] and decodes the result to a json object.
   Future<Map<String, dynamic>> _getJson(Uri url) async {
@@ -43,8 +43,8 @@ class WikiApi {
       'action': 'query',
       'format': 'json',
       'list': 'random',
-      'rnlimit': amount,
-      'rnnamespace': 0,
+      'rnlimit': '$amount',
+      'rnnamespace': '0',
     });
 
     final response = await _getJson(url);
@@ -75,7 +75,7 @@ class WikiApi {
       'action': 'query',
       'format': 'json',
       'titles': title,
-      'formatversion': 2,
+      'formatversion': '2',
     });
 
     final response = await _getJson(url);
@@ -97,9 +97,9 @@ class WikiApi {
       'action': 'query',
       'format': 'json',
       'prop': 'extracts&exintro&explaintext',
-      'redirects': 1,
-      'pageids': id,
-      'formatversion': 2,
+      'redirects': '1',
+      'pageids': '$id',
+      'formatversion': '2',
     });
 
     final response = await _getJson(url);
@@ -125,9 +125,9 @@ class WikiApi {
       'format': 'json',
       'prop': 'pageimages',
       'piprop': 'original',
-      'redirects': 1,
-      'pageids': id,
-      'formatversion': 2,
+      'redirects': '1',
+      'pageids': '$id',
+      'formatversion': '2',
     });
 
     final response = await _getJson(url);
@@ -153,7 +153,7 @@ class WikiApi {
       'prop': 'links',
       'pllimit': 'max',
       'titles': title,
-      'formatversion': 2,
+      'formatversion': '2',
     });
 
     var response = await _getJson(url);
@@ -204,7 +204,7 @@ class WikiApi {
     final url = _buildUrl({
       'action': 'query',
       'format': 'json',
-      'cmnamespace': 0,
+      'cmnamespace': '0',
       'list': 'categorymembers',
       'cmtitle': 'Category:$category',
     });
