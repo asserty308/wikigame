@@ -1,6 +1,6 @@
 name: wikigame
-description: A new Flutter project.
-publish_to: 'none' 
+description: WikiGame made with flutter.
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
   flutter_svg: ^1.1.6
   get_it: ^7.2.0
-  go_router: ^5.1.10
+  go_router: ^5.2.0
   http: ^0.13.5
   package_info_plus: ^3.0.2
   shared_preferences: ^2.0.15
