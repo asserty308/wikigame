@@ -7,4 +7,6 @@ class WikiRepo {
   Future<List<WikiArticle>> getRandomArticles(int amount) async => _api.getRandomArticles(amount);
 
   Future<List<WikiArticle>> searchArticles(String searchTerm) async => _api.searchArticles(searchTerm);
+
+  Future<String?> getArticleImageUrl(int id) async => _api.getArticleImageUrl(id);
 }

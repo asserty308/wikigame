@@ -1,8 +1,5 @@
 import 'package:wikigame/data/models/wiki_article.dart';
 
-/// Set when a new game has started. Unset when any game ends.
-GameHandler? currentGame;
-
 class GameHandler {
   GameHandler._(this.from, this.to);
 

@@ -27,7 +27,7 @@ final _gameRoute = GoRoute(
   routes: [
     GoRoute(
       path: 'classic',
-      pageBuilder: (context, state) => const NoTransitionPage(child: ClassicModePage()),
+      pageBuilder: (context, state) => NoTransitionPage(child: ClassicModePage()),
     ),
     GoRoute(
       path: 'click_guess',
