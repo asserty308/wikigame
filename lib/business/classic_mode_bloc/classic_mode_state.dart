@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wikigame/data/models/wiki_article.dart';
 import 'package:wikigame/data/services/game_handler.dart';
 
 @immutable
