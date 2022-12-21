@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wikigame/business/classic_mode_bloc/classic_mode_bloc.dart';
 import 'package:wikigame/business/classic_mode_bloc/classic_mode_state.dart';
+import 'package:wikigame/data/models/game_mode.dart';
 import 'package:wikigame/ui/widgets/article_tile.dart';
 
-class ClassicModePage extends StatelessWidget {
-  ClassicModePage({super.key}) {
+class GamePage extends StatelessWidget {
+  GamePage({
+    super.key,
+    required this.gameMode,
+  }) {
     _bloc.load();
   }
+
+  final GameMode gameMode;
 
   final _bloc = ClassicModeBloc();
 
