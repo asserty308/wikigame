@@ -21,5 +21,5 @@ ThemeData get darkTheme => ThemeData(
 );
 
 TextTheme _textTheme = const TextTheme(
-  button: TextStyle(fontSize: 21),
+  labelLarge: TextStyle(fontSize: 21),
 );

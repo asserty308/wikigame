@@ -3,7 +3,6 @@ include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     always_use_package_imports: true
-    avoid_classes_with_only_static_members: true
     eol_at_end_of_file: true
     noop_primitive_operations: true
     prefer_constructors_over_static_methods: true
