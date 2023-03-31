@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.4
   get_it: ^7.2.0
-  go_router: ^6.0.6
+  go_router: ^6.5.2
   http: ^0.13.5
   package_info_plus: ^3.0.3
   shared_preferences: ^2.0.20
