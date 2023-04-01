@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final appLocale = ValueNotifier<Locale>(supportedLocales.first);
+final appLocale = ValueNotifier<Locale>(AppLocalizations.supportedLocales.first);
 
-const supportedLocales = [
-  Locale('en'),
-  Locale('de'),
-];
-
-const localizationsDelegates = [
-  AppLocalizations.delegate,
-  GlobalMaterialLocalizations.delegate,
-  GlobalWidgetsLocalizations.delegate,
-  GlobalCupertinoLocalizations.delegate,
-];
+const supportedLocales = AppLocalizations.supportedLocales;
+const localizationsDelegates = AppLocalizations.localizationsDelegates;
 
 /// Add localizations to l10n/*.arb files and run
 /// flutter gen-l10n to add them to AppLocalizations
-AppLocalizations getLocalizations(BuildContext context) => AppLocalizations.of(context)!;
+AppLocalizations getL10n(BuildContext context) => AppLocalizations.of(context)!;
 
 Locale localeResolutionCallback(Locale? deviceLocale, Iterable<Locale> supportedLocales) {
   if (deviceLocale == null) {

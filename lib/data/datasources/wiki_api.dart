@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:wikigame/data/models/wiki_article.dart';
 
+/// An exception that is thrown when the requested page was not found.
 class PageNotFoundException implements Exception {}
 
+/// A class that provides access to the wikipedia api.
 class WikiApi {
   /// The base url to query the wikipedia api
   final _baseUrl = 'en.wikipedia.org';

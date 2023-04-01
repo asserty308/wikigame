@@ -14,7 +14,7 @@ class _SelectThemeTileState extends State<SelectThemeTile> {
 
   @override
   Widget build(BuildContext context) => ListTile(
-    title: Text(getLocalizations(context).app_theme),
+    title: Text(getL10n(context).app_theme),
     trailing: _dropdownButton,
   );
 

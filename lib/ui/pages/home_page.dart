@@ -20,11 +20,11 @@ class _MenuPageState extends State<MenuPage> {
     children: [
       TextButton(
         onPressed: _onStartGamePressed, 
-        child: Text(getLocalizations(context).start_game),
+        child: Text(getL10n(context).start_game),
       ),
       TextButton(
         onPressed: _onSettingsPressed, 
-        child: Text(getLocalizations(context).settings),
+        child: Text(getL10n(context).settings),
       ),
     ],
   );

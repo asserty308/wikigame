@@ -11,7 +11,7 @@ class SelectLanguageTile extends StatefulWidget {
 class _SelectLanguageTileState extends State<SelectLanguageTile> {
   @override
   Widget build(BuildContext context) => ListTile(
-    title: Text(getLocalizations(context).language),
+    title: Text(getL10n(context).language),
     trailing: _dropdownButton,
   );
 

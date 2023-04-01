@@ -14,8 +14,13 @@ class WikiArticle {
     extract: json['extract'] as String?,
   );
 
+  /// The id of the article
   final int id;
+
+  /// The title of the article
   final String title;
+
+  /// The extract of the article
   final String? extract;
 
   /// Returns the language specific url of the article

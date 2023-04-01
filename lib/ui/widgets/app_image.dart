@@ -8,7 +8,10 @@ class AppImage extends StatelessWidget {
     this.fit = BoxFit.cover,
   });
 
+  /// The URL of the image to display.
   final String url;
+
+  /// How the image should be inscribed into the space allocated during layout.
   final BoxFit fit;
 
   @override
