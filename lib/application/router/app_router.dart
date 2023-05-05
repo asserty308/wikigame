@@ -23,7 +23,7 @@ final _mainRoute = GoRoute(
 final _gameRoute = GoRoute(
   path: '/game',
   pageBuilder: (context, state) {
-    final params = state.queryParams;
+    final params = state.queryParameters;
     final modeValue = params['mode'];
 
     if (modeValue != null) {
